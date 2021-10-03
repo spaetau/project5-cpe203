@@ -55,8 +55,19 @@ public final class WorldView
                         viewPoint.y * this.tileHeight);
             }
         }
-
-
-
     }
+
+    public void shiftView(int colDelta, int rowDelta) {
+        int newCol = clamp(this.viewport.col + colDelta, 0,
+                this.world.numCols - this.viewport.numCols);
+        int newRow = clamp(this.viewport.row + rowDelta, 0,
+                this.world.numRows - this.viewport.numRows);
+
+        this.viewport.shift(newCol, newRow);
+    }
+
+    public static int clamp(int value, int low, int high) {
+        return Math.min(high, Math.max(value, low));
+    }
+
 }

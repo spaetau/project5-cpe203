@@ -23,4 +23,10 @@ public final class Viewport
     public  Point viewportToWorld(int col, int row) {
         return new Point(col + this.col, row + this.row);
     }
+
+
+    public void shift(int col, int row) {
+        this.col = col;
+        this.row = row;
+    }
 }
