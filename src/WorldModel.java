@@ -25,5 +25,6 @@ public final class WorldModel
         for (int row = 0; row < numRows; row++) {
             Arrays.fill(this.background[row], defaultBackground);
         }
+
     }
 }
