@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Random;
 
 import processing.core.PImage;
@@ -259,9 +260,9 @@ public final class Entity
             EventScheduler scheduler,
             ImageStore imageStore) {
         if (this.health <= 0) {
-            Entity stump = Functions.createStump(this.id,
+            Entity stump = Entity.createStump(this.id,
                     this.position,
-                    imageStore.getImageList(Functions.STUMP_KEY));
+                    imageStore.getImageList(STUMP_KEY));
 
             this.removeEntity(world);
             scheduler.unscheduleAllEvents(this);
@@ -367,6 +368,106 @@ public final class Entity
                 max
                         - min);
     }
+
+    public boolean moveToFairy(
+            WorldModel world,
+            Entity target,
+            EventScheduler scheduler) {
+        if (Point.adjacent(this.position, target.position)) {
+            target.removeEntity(world);
+            scheduler.unscheduleAllEvents(target);
+            return true;
+        } else {
+            Point nextPos = this.nextPositionFairy(world, target.position);
+
+            if (!this.position.equals(nextPos)) {
+                Optional<Entity> occupant = world.getOccupant(nextPos);
+                if (occupant.isPresent()) {
+                    scheduler.unscheduleAllEvents(occupant.get());
+                }
+
+                this.moveEntity(world, nextPos);
+            }
+            return false;
+        }
+    }
+
+    public boolean moveToNotFull(
+            WorldModel world,
+            Entity target,
+            EventScheduler scheduler) {
+        if (Point.adjacent(this.position, target.position)) {
+            this.resourceCount += 1;
+            target.health--;
+            return true;
+        } else {
+            Point nextPos = this.nextPositionDude(world, target.position);
+
+            if (!this.position.equals(nextPos)) {
+                Optional<Entity> occupant = world.getOccupant(nextPos);
+                if (occupant.isPresent()) {
+                    scheduler.unscheduleAllEvents(occupant.get());
+                }
+
+                this.moveEntity(world, nextPos);
+            }
+            return false;
+        }
+    }
+
+    public boolean moveToFull(
+            WorldModel world,
+            Entity target,
+            EventScheduler scheduler) {
+        if (Point.adjacent(this.position, target.position)) {
+            return true;
+        } else {
+            Point nextPos = this.nextPositionDude(world, target.position);
+
+            if (!this.position.equals(nextPos)) {
+                Optional<Entity> occupant = world.getOccupant(nextPos);
+                if (occupant.isPresent()) {
+                    scheduler.unscheduleAllEvents(occupant.get());
+                }
+
+                this.moveEntity(world, nextPos);
+            }
+            return false;
+        }
+    }
+
+    public Point nextPositionFairy(WorldModel world, Point destPos) {
+        int horiz = Integer.signum(destPos.x - this.position.x);
+        Point newPos = new Point(this.position.x + horiz, this.position.y);
+
+        if (horiz == 0 || world.isOccupied(newPos)) {
+            int vert = Integer.signum(destPos.y - this.position.y);
+            newPos = new Point(this.position.x, this.position.y + vert);
+
+            if (vert == 0 || world.isOccupied(newPos)) {
+                newPos = this.position;
+            }
+        }
+
+        return newPos;
+    }
+
+    public Point nextPositionDude(WorldModel world, Point destPos) {
+        int horiz = Integer.signum(destPos.x - this.position.x);
+        Point newPos = new Point(this.position.x + horiz, this.position.y);
+
+        if (horiz == 0 || world.isOccupied(newPos) && world.getOccupancyCell(newPos).kind != EntityKind.STUMP) {
+            int vert = Integer.signum(destPos.y - this.position.y);
+            newPos = new Point(this.position.x, this.position.y + vert);
+
+            if (vert == 0 || world.isOccupied(newPos) && world.getOccupancyCell(newPos).kind != EntityKind.STUMP) {
+                newPos = this.position;
+            }
+        }
+
+        return newPos;
+    }
+
 
 }
 

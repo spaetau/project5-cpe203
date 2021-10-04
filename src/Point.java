@@ -34,4 +34,9 @@ public final class Point
         return deltaX * deltaX + deltaY * deltaY;
     } //looks cleaner as static taking in two variables,
     // can change to a class method.
+
+    public static boolean adjacent(Point p1, Point p2) {
+        return (p1.x == p2.x && Math.abs(p1.y - p2.y) == 1) || (p1.y == p2.y
+                && Math.abs(p1.x - p2.x) == 1);
+    }
 }

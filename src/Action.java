@@ -135,9 +135,9 @@ public final class Action
         if (fairyTarget.isPresent()) {
             Point tgtPos = fairyTarget.get().position;
 
-            if (Functions.moveToFairy(entity, world, fairyTarget.get(), scheduler)) {
-                Entity sapling = Functions.createSapling("sapling_" + entity.id, tgtPos,
-                        imageStore.getImageList(Functions.SAPLING_KEY));
+            if (entity.moveToFairy(world, fairyTarget.get(), scheduler)) {
+                Entity sapling = Entity.createSapling("sapling_" + entity.id, tgtPos,
+                        imageStore.getImageList(Entity.SAPLING_KEY));
 
                 sapling.addEntity(world);
                 scheduler.scheduleActions(sapling, world, imageStore);
@@ -158,7 +158,7 @@ public final class Action
         Optional<Entity> target =
                 world.findNearest(entity.position, new ArrayList<>(Arrays.asList(EntityKind.TREE, EntityKind.SAPLING)));
 
-        if (!target.isPresent() || !Functions.moveToNotFull(entity, world,
+        if (!target.isPresent() || !entity.moveToNotFull(world,
                 target.get(),
                 scheduler)
                 || !entity.transformNotFull(world, scheduler, imageStore))
@@ -179,7 +179,7 @@ public final class Action
         Optional<Entity> fullTarget =
                 world.findNearest(entity.position, new ArrayList<>(Arrays.asList(EntityKind.HOUSE)));
 
-        if (fullTarget.isPresent() && Functions.moveToFull(entity, world,
+        if (fullTarget.isPresent() && entity.moveToFull(world,
                 fullTarget.get(), scheduler))
         {
             entity.transformFull(world, scheduler, imageStore);
