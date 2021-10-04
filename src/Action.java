@@ -100,7 +100,7 @@ public final class Action
             EventScheduler scheduler)
     {
         entity.health++;
-        if (!Functions.transformPlant(entity, world, scheduler, imageStore))
+        if (!entity.transformPlant(world, scheduler, imageStore))
         {
             scheduler.scheduleEvent( entity,
                 createActivityAction(entity, world, imageStore),
@@ -115,7 +115,7 @@ public final class Action
             EventScheduler scheduler)
     {
 
-        if (!Functions.transformPlant(entity, world, scheduler, imageStore)) {
+        if (!entity.transformPlant(world, scheduler, imageStore)) {
 
             scheduler.scheduleEvent(entity,
                     createActivityAction(entity, world, imageStore),

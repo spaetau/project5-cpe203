@@ -86,380 +86,79 @@ public final class Functions {
     public static final int TREE_HEALTH_MIN = 1;
 
 
-//    public static PImage getCurrentImage(Object entity) {
-//        if (entity instanceof Background) {
-//            return ((Background)entity).images.get(
-//                    ((Background)entity).imageIndex);
-//        }
-//        else if (entity instanceof Entity) {
-//            return ((Entity)entity).images.get(((Entity)entity).imageIndex);
-//        }
-//        else {
+
+//    public static boolean transformPlant(Entity entity,
+//                                         WorldModel world,
+//                                         EventScheduler scheduler,
+//                                         ImageStore imageStore) {
+//        if (entity.kind == EntityKind.TREE) {
+//            return transformTree(entity, world, scheduler, imageStore);
+//        } else if (entity.kind == EntityKind.SAPLING) {
+//            return transformSapling(entity, world, scheduler, imageStore);
+//        } else {
 //            throw new UnsupportedOperationException(
-//                    String.format("getCurrentImage not supported for %s",
-//                            entity));
-//        }
-//    }
-
-//    public static int getAnimationPeriod(Entity entity) {
-//        switch (entity.kind) {
-//            case DUDE_FULL:
-//            case DUDE_NOT_FULL:
-//            case OBSTACLE:
-//            case FAIRY:
-//            case SAPLING:
-//            case TREE:
-//                return entity.animationPeriod;
-//            default:
-//                throw new UnsupportedOperationException(
-//                        String.format("getAnimationPeriod not supported for %s",
-//                                entity.kind));
-//        }
-//    }
-
-//    public static void nextImage(Entity entity) {
-//        entity.imageIndex = (entity.imageIndex + 1) % entity.images.size();
-//    }
-
-//    public static void executeAction(Action action, EventScheduler scheduler) {
-//        switch (action.kind) {
-//            case ACTIVITY:
-//                executeActivityAction(action, scheduler);
-//                break;
-//
-//            case ANIMATION:
-//                executeAnimationAction(action, scheduler);
-//                break;
+//                    String.format("transformPlant not supported for %s", entity));
 //        }
 //    }
 //
-//    public static void executeAnimationAction(
-//            Action action, EventScheduler scheduler)
-//    {
-//        nextImage(action.entity);
-//
-//        if (action.repeatCount != 1) {
-//            scheduleEvent(schedu, action.entity,
-//                    Action.createAnimationAction(action.entity,
-//                            Math.max(action.repeatCount - 1,
-//                                    0)),
-//                    getAnimationPeriod(action.entity));
-//        }
-//    }
-//
-//    public static void executeActivityAction(
-//            Action action, EventScheduler scheduler)
-//    {
-//        switch (action.entity.kind) {
-//            case SAPLING:
-//                executeSaplingActivity(action.entity, action.world,
-//                        action.imageStore, scheduler);
-//                break;
-//
-//            case TREE:
-//                executeTreeActivity(action.entity, action.world,
-//                        action.imageStore, scheduler);
-//                break;
-//
-//            case FAIRY:
-//                executeFairyActivity(action.entity, action.world,
-//                        action.imageStore, scheduler);
-//                break;
-//
-//            case DUDE_NOT_FULL:
-//                executeDudeNotFullActivity(action.entity, action.world,
-//                        action.imageStore, scheduler);
-//                break;
-//
-//            case DUDE_FULL:
-//                executeDudeFullActivity(action.entity, action.world,
-//                        action.imageStore, scheduler);
-//                break;
-//
-//            default:
-//                throw new UnsupportedOperationException(String.format(
-//                        "executeActivityAction not supported for %s",
-//                        action.entity.kind));
-//        }
-//    }
-
-//    public static void executeSaplingActivity(
-//            Entity entity,
-//            WorldModel world,
-//            ImageStore imageStore,
-//            EventScheduler scheduler)
-//    {
-//        entity.health++;
-//        if (!transformPlant(entity, world, scheduler, imageStore))
-//        {
-//            scheduleEvent(scheduler, entity,
-//                    createActivityAction(entity, world, imageStore),
-//                    entity.actionPeriod);
-//        }
-//    }
-//
-//    public static void executeTreeActivity(
-//            Entity entity,
-//            WorldModel world,
-//            ImageStore imageStore,
-//            EventScheduler scheduler)
-//    {
-//
-//        if (!transformPlant(entity, world, scheduler, imageStore)) {
-//
-//            scheduleEvent(scheduler, entity,
-//                    createActivityAction(entity, world, imageStore),
-//                    entity.actionPeriod);
-//        }
-//    }
-//
-//    public static void executeFairyActivity(
-//            Entity entity,
-//            WorldModel world,
-//            ImageStore imageStore,
-//            EventScheduler scheduler)
-//    {
-//        Optional<Entity> fairyTarget =
-//                findNearest(world, entity.position, new ArrayList<>(Arrays.asList(EntityKind.STUMP)));
-//
-//        if (fairyTarget.isPresent()) {
-//            Point tgtPos = fairyTarget.get().position;
-//
-//            if (moveToFairy(entity, world, fairyTarget.get(), scheduler)) {
-//                Entity sapling = createSapling("sapling_" + entity.id, tgtPos,
-//                        getImageList(imageStore, SAPLING_KEY));
-//
-//                sapling.addEntity(world);
-//                scheduleActions(sapling, scheduler, world, imageStore);
-//            }
-//        }
-//
-//        scheduleEvent(scheduler, entity,
-//                createActivityAction(entity, world, imageStore),
-//                entity.actionPeriod);
-//    }
-//
-//    public static void executeDudeNotFullActivity(
-//            Entity entity,
-//            WorldModel world,
-//            ImageStore imageStore,
-//            EventScheduler scheduler)
-//    {
-//        Optional<Entity> target =
-//                findNearest(world, entity.position, new ArrayList<>(Arrays.asList(EntityKind.TREE, EntityKind.SAPLING)));
-//
-//        if (!target.isPresent() || !moveToNotFull(entity, world,
-//                target.get(),
-//                scheduler)
-//                || !transformNotFull(entity, world, scheduler, imageStore))
-//        {
-//            scheduleEvent(scheduler, entity,
-//                    createActivityAction(entity, world, imageStore),
-//                    entity.actionPeriod);
-//        }
-//    }
-//
-//    public static void executeDudeFullActivity(
-//            Entity entity,
-//            WorldModel world,
-//            ImageStore imageStore,
-//            EventScheduler scheduler)
-//    {
-//        Optional<Entity> fullTarget =
-//                findNearest(world, entity.position, new ArrayList<>(Arrays.asList(EntityKind.HOUSE)));
-//
-//        if (fullTarget.isPresent() && moveToFull(entity, world,
-//                fullTarget.get(), scheduler))
-//        {
-//            transformFull(entity, world, scheduler, imageStore);
-//        }
-//        else {
-//            scheduleEvent(scheduler, entity,
-//                    createActivityAction(entity, world, imageStore),
-//                    entity.actionPeriod);
-//        }
-//    }
-//
-//
-//    public static void scheduleActions(
-//            Entity entity,
-//            EventScheduler scheduler,
-//            WorldModel world,
-//            ImageStore imageStore)
-//    {
-//        switch (entity.kind) {
-//            case DUDE_FULL:
-//                scheduleEvent(scheduler, entity,
-//                        createActivityAction(entity, world, imageStore),
-//                        entity.actionPeriod);
-//                scheduleEvent(scheduler, entity,
-//                        createAnimationAction(entity, 0),
-//                        getAnimationPeriod(entity));
-//                break;
-//
-//            case DUDE_NOT_FULL:
-//                scheduleEvent(scheduler, entity,
-//                        createActivityAction(entity, world, imageStore),
-//                        entity.actionPeriod);
-//                scheduleEvent(scheduler, entity,
-//                        createAnimationAction(entity, 0),
-//                        getAnimationPeriod(entity));
-//                break;
-//
-//            case OBSTACLE:
-//                scheduleEvent(scheduler, entity,
-//                        createAnimationAction(entity, 0),
-//                        getAnimationPeriod(entity));
-//                break;
-//
-//            case FAIRY:
-//                scheduleEvent(scheduler, entity,
-//                        createActivityAction(entity, world, imageStore),
-//                        entity.actionPeriod);
-//                scheduleEvent(scheduler, entity,
-//                        createAnimationAction(entity, 0),
-//                        getAnimationPeriod(entity));
-//                break;
-//
-//            case SAPLING:
-//                scheduleEvent(scheduler, entity,
-//                        createActivityAction(entity, world, imageStore),
-//                        entity.actionPeriod);
-//                scheduleEvent(scheduler, entity,
-//                        createAnimationAction(entity, 0),
-//                        getAnimationPeriod(entity));
-//                break;
-//
-//            case TREE:
-//                scheduleEvent(scheduler, entity,
-//                        createActivityAction(entity, world, imageStore),
-//                        entity.actionPeriod);
-//                scheduleEvent(scheduler, entity,
-//                        createAnimationAction(entity, 0),
-//                        getAnimationPeriod(entity));
-//                break;
-//
-//            default:
-//        }
-//    }
-
-//    public static boolean transformNotFull(
+//    public static boolean transformTree(
 //            Entity entity,
 //            WorldModel world,
 //            EventScheduler scheduler,
-//            ImageStore imageStore)
-//    {
-//        if (entity.resourceCount >= entity.resourceLimit) {
-//            Entity miner = createDudeFull(entity.id,
-//                    entity.position, entity.actionPeriod,
-//                    entity.animationPeriod,
-//                    entity.resourceLimit,
-//                    entity.images);
+//            ImageStore imageStore) {
+//        if (entity.health <= 0) {
+//            Entity stump = createStump(entity.id,
+//                    entity.position,
+//                    imageStore.getImageList(STUMP_KEY));
 //
 //            entity.removeEntity(world);
 //            unscheduleAllEvents(scheduler, entity);
 //
-//            miner.addEntity(world);
-//            scheduleActions(miner, scheduler, world, imageStore);
+//            stump.addEntity(world);
+//            scheduler.scheduleActions(stump, world, imageStore);
 //
 //            return true;
 //        }
 //
 //        return false;
 //    }
-
-//    public static void transformFull(
+//
+//    public static boolean transformSapling(
 //            Entity entity,
 //            WorldModel world,
 //            EventScheduler scheduler,
-//            ImageStore imageStore)
-//    {
-//        Entity miner = createDudeNotFull(entity.id,
-//                entity.position, entity.actionPeriod,
-//                entity.animationPeriod,
-//                entity.resourceLimit,
-//                entity.images);
+//            ImageStore imageStore) {
+//        if (entity.health <= 0) {
+//            Entity stump = createStump(entity.id,
+//                    entity.position,
+//                    imageStore.getImageList(STUMP_KEY));
 //
-//        entity.removeEntity(world);
-//        unscheduleAllEvents(scheduler, entity);
+//            entity.removeEntity(world);
+//            unscheduleAllEvents(scheduler, entity);
 //
-//        miner.addEntity(world);
-//        scheduleActions(miner, scheduler, world, imageStore);
+//            stump.addEntity(world);
+//            scheduler.scheduleActions(stump, world, imageStore);
+//
+//            return true;
+//        } else if (entity.health >= entity.healthLimit) {
+//            Entity tree = createTree("tree_" + entity.id,
+//                    entity.position,
+//                    getNumFromRange(TREE_ACTION_MAX, TREE_ACTION_MIN),
+//                    getNumFromRange(TREE_ANIMATION_MAX, TREE_ANIMATION_MIN),
+//                    getNumFromRange(TREE_HEALTH_MAX, TREE_HEALTH_MIN),
+//                    imageStore.getImageList(TREE_KEY));
+//
+//            entity.removeEntity(world);
+//            unscheduleAllEvents(scheduler, entity);
+//
+//            tree.addEntity(world);
+//            scheduler.scheduleActions(tree, world, imageStore);
+//
+//            return true;
+//        }
+//
+//        return false;
 //    }
-
-
-    public static boolean transformPlant(Entity entity,
-                                         WorldModel world,
-                                         EventScheduler scheduler,
-                                         ImageStore imageStore) {
-        if (entity.kind == EntityKind.TREE) {
-            return transformTree(entity, world, scheduler, imageStore);
-        } else if (entity.kind == EntityKind.SAPLING) {
-            return transformSapling(entity, world, scheduler, imageStore);
-        } else {
-            throw new UnsupportedOperationException(
-                    String.format("transformPlant not supported for %s", entity));
-        }
-    }
-
-    public static boolean transformTree(
-            Entity entity,
-            WorldModel world,
-            EventScheduler scheduler,
-            ImageStore imageStore) {
-        if (entity.health <= 0) {
-            Entity stump = createStump(entity.id,
-                    entity.position,
-                    imageStore.getImageList(STUMP_KEY));
-
-            entity.removeEntity(world);
-            unscheduleAllEvents(scheduler, entity);
-
-            stump.addEntity(world);
-            scheduler.scheduleActions(stump, world, imageStore);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public static boolean transformSapling(
-            Entity entity,
-            WorldModel world,
-            EventScheduler scheduler,
-            ImageStore imageStore) {
-        if (entity.health <= 0) {
-            Entity stump = createStump(entity.id,
-                    entity.position,
-                    imageStore.getImageList(STUMP_KEY));
-
-            entity.removeEntity(world);
-            unscheduleAllEvents(scheduler, entity);
-
-            stump.addEntity(world);
-            scheduler.scheduleActions(stump, world, imageStore);
-
-            return true;
-        } else if (entity.health >= entity.healthLimit) {
-            Entity tree = createTree("tree_" + entity.id,
-                    entity.position,
-                    getNumFromRange(TREE_ACTION_MAX, TREE_ACTION_MIN),
-                    getNumFromRange(TREE_ANIMATION_MAX, TREE_ANIMATION_MIN),
-                    getNumFromRange(TREE_HEALTH_MAX, TREE_HEALTH_MIN),
-                    imageStore.getImageList(TREE_KEY));
-
-            entity.removeEntity(world);
-            unscheduleAllEvents(scheduler, entity);
-
-            tree.addEntity(world);
-            scheduler.scheduleActions(tree, world, imageStore);
-
-            return true;
-        }
-
-        return false;
-    }
 
     public static boolean moveToFairy(
             Entity fairy,
@@ -468,7 +167,7 @@ public final class Functions {
             EventScheduler scheduler) {
         if (adjacent(fairy.position, target.position)) {
             target.removeEntity(world);
-            unscheduleAllEvents(scheduler, target);
+            scheduler.unscheduleAllEvents(target);
             return true;
         } else {
             Point nextPos = nextPositionFairy(fairy, world, target.position);
@@ -476,7 +175,7 @@ public final class Functions {
             if (!fairy.position.equals(nextPos)) {
                 Optional<Entity> occupant = world.getOccupant(nextPos);
                 if (occupant.isPresent()) {
-                    unscheduleAllEvents(scheduler, occupant.get());
+                    scheduler.unscheduleAllEvents(occupant.get());
                 }
 
                 fairy.moveEntity(world, nextPos);
@@ -500,7 +199,7 @@ public final class Functions {
             if (!dude.position.equals(nextPos)) {
                 Optional<Entity> occupant = world.getOccupant(nextPos);
                 if (occupant.isPresent()) {
-                    unscheduleAllEvents(scheduler, occupant.get());
+                    scheduler.unscheduleAllEvents(occupant.get());
                 }
 
                 dude.moveEntity(world, nextPos);
@@ -522,7 +221,7 @@ public final class Functions {
             if (!dude.position.equals(nextPos)) {
                 Optional<Entity> occupant = world.getOccupant(nextPos);
                 if (occupant.isPresent()) {
-                    unscheduleAllEvents(scheduler, occupant.get());
+                    scheduler.unscheduleAllEvents(occupant.get());
                 }
 
                 dude.moveEntity(world, nextPos);
@@ -571,42 +270,25 @@ public final class Functions {
                 && Math.abs(p1.x - p2.x) == 1);
     }
 
-    public static int getNumFromRange(int max, int min) {
-        Random rand = new Random();
-        return min + rand.nextInt(
-                max
-                        - min);
-    }
-
-//    public static void scheduleEvent(
-//            EventScheduler scheduler,
-//            Entity entity,
-//            Action action,
-//            long afterPeriod)
-//    {
-//        long time = System.currentTimeMillis() + (long)(afterPeriod
-//                * scheduler.timeScale);
-//        Event event = new Event(action, time, entity);
-//
-//        scheduler.eventQueue.add(event);
-//
-//        // update list of pending events for the given entity
-//        List<Event> pending = scheduler.pendingEvents.getOrDefault(entity,
-//                new LinkedList<>());
-//        pending.add(event);
-//        scheduler.pendingEvents.put(entity, pending);
+//    public static int getNumFromRange(int max, int min) {
+//        Random rand = new Random();
+//        return min + rand.nextInt(
+//                max
+//                        - min);
 //    }
 
-    public static void unscheduleAllEvents(
-            EventScheduler scheduler, Entity entity) {
-        List<Event> pending = scheduler.pendingEvents.remove(entity);
 
-        if (pending != null) {
-            for (Event event : pending) {
-                scheduler.eventQueue.remove(event);
-            }
-        }
-    }
+
+//    public static void unscheduleAllEvents(
+//            EventScheduler scheduler, Entity entity) {
+//        List<Event> pending = scheduler.pendingEvents.remove(entity);
+//
+//        if (pending != null) {
+//            for (Event event : pending) {
+//                scheduler.eventQueue.remove(event);
+//            }
+//        }
+//    }
 
     public static void removePendingEvent(
             EventScheduler scheduler, Event event) {
@@ -690,16 +372,6 @@ public final class Functions {
         }
         img.updatePixels();
     }
-
-//    public static void shift(Viewport viewport, int col, int row) {
-//        viewport.col = col;
-//        viewport.row = row;
-//    }
-
-//    public static boolean contains(Viewport viewport, Point p) {
-//        return p.y >= viewport.row && p.y < viewport.row + viewport.numRows
-//                && p.x >= viewport.col && p.x < viewport.col + viewport.numCols;
-//    }
 
     public static void load(
             Scanner in, WorldModel world, ImageStore imageStore) {
@@ -852,207 +524,7 @@ public final class Functions {
         return properties.length == HOUSE_NUM_PROPERTIES;
     }
 
-//    public static void tryAddEntity(WorldModel world, Entity entity) {
-//        if (world.isOccupied(entity.position)) {
-//            // arguably the wrong type of exception, but we are not
-//            // defining our own exceptions yet
-//            throw new IllegalArgumentException("position occupied");
-//        }
-//
-//        entity.addEntity(world);
-//    }
 
-//    public static boolean withinBounds(WorldModel world, Point pos) {
-//        return pos.y >= 0 && pos.y < world.numRows && pos.x >= 0
-//                && pos.x < world.numCols;
-//    }
-//
-//    public static boolean isOccupied(WorldModel world, Point pos) {
-//        return withinBounds(world, pos) && world.getOccupancyCell(pos) != null;
-//    }
-
-//    public static Optional<Entity> nearestEntity(
-//            List<Entity> entities, Point pos)
-//    {
-//        if (entities.isEmpty()) {
-//            return Optional.empty();
-//        }
-//        else {
-//            Entity nearest = entities.get(0);
-//            int nearestDistance = Point.distanceSquared(nearest.position, pos);
-//
-//            for (Entity other : entities) {
-//                int otherDistance = Point.distanceSquared(other.position, pos);
-//
-//                if (otherDistance < nearestDistance) {
-//                    nearest = other;
-//                    nearestDistance = otherDistance;
-//                }
-//            }
-//
-//            return Optional.of(nearest);
-//        }
-//    }
-
-
-//    public static Optional<Entity> findNearest(
-//            WorldModel world, Point pos, List<EntityKind> kinds)
-//    {
-//        List<Entity> ofType = new LinkedList<>();
-//        for (EntityKind kind: kinds)
-//        {
-//            for (Entity entity : world.entities) {
-//                if (entity.kind == kind) {
-//                    ofType.add(entity);
-//                }
-//            }
-//        }
-//
-//        return nearestEntity(ofType, pos);
-//    }
-
-    /*
-       Assumes that there is no entity currently occupying the
-       intended destination cell.
-    */
-//    public static void addEntity(WorldModel world, Entity entity) {
-//        if (withinBounds(world, entity.position)) {
-//            world.setOccupancyCell(entity.position, entity);
-//            world.entities.add(entity);
-//        }
-//    }
-
-//    public static void moveEntity(WorldModel world, Entity entity, Point pos) {
-//        Point oldPos = entity.position;
-//        if (withinBounds(world, pos) && !pos.equals(oldPos)) {
-//            world.setOccupancyCell(oldPos, null);
-//            removeEntityAt(world, pos);
-//            world.setOccupancyCell(pos, entity);
-//            entity.position = pos;
-//        }
-//    }
-
-//    public static void removeEntity(WorldModel world, Entity entity) {
-//        removeEntityAt(world, entity.position);
-//    }
-
-//    public static void removeEntityAt(WorldModel world, Point pos) {
-//        if (withinBounds(world, pos) && world.getOccupancyCell(pos) != null) {
-//            Entity entity = world.getOccupancyCell(pos);
-//
-//            /* This moves the entity just outside of the grid for
-//             * debugging purposes. */
-//            entity.position = new Point(-1, -1);
-//            world.entities.remove(entity);
-//            world.setOccupancyCell(pos, null);
-//        }
-//    }
-
-//    public static Optional<PImage> getBackgroundImage(
-//            WorldModel world, Point pos)
-//    {
-//        if (withinBounds(world, pos)) {
-//            return Optional.of(getCurrentImage(world.getBackgroundCell(pos)));
-//        }
-//        else {
-//            return Optional.empty();
-//        }
-//    }
-
-//    public static void setBackground(
-//            WorldModel world, Point pos, Background background)
-//    {
-//        if (withinBounds(world, pos)) {
-//            world.setBackgroundCell(pos, background);
-//        }
-//    }
-//
-//    public static Optional<Entity> getOccupant(WorldModel world, Point pos) {
-//        if (isOccupied(world, pos)) {
-//            return Optional.of(world.getOccupancyCell(pos));
-//        }
-//        else {
-//            return Optional.empty();
-//        }
-//    }
-
-//    public static Entity getOccupancyCell(WorldModel world, Point pos)
-//    {
-//        return world.occupancy[pos.y][pos.x];
-//    }
-
-//    public static void setOccupancyCell(
-//            WorldModel world, Point pos, Entity entity)
-//    {
-//        world.occupancy[pos.y][pos.x] = entity;
-//    }
-
-//    public static Background getBackgroundCell(WorldModel world, Point pos) {
-//        return world.background[pos.y][pos.x];
-//    }
-
-//    public static void setBackgroundCell(
-//            WorldModel world, Point pos, Background background)
-//    {
-//        world.background[pos.y][pos.x] = background;
-//    }
-
-
-//    public static int clamp(int value, int low, int high) {
-//        return Math.min(high, Math.max(value, low));
-//    }
-//
-//    public static void shiftView(WorldView view, int colDelta, int rowDelta) {
-//        int newCol = clamp(view.viewport.col + colDelta, 0,
-//                view.world.numCols - view.viewport.numCols);
-//        int newRow = clamp(view.viewport.row + rowDelta, 0,
-//                view.world.numRows - view.viewport.numRows);
-//
-//        view.viewport.shift(newCol, newRow);
-//    }
-
-//    public static void drawBackground(WorldView view) {
-//        for (int row = 0; row < view.viewport.numRows; row++) {
-//            for (int col = 0; col < view.viewport.numCols; col++) {
-//                Point worldPoint = view.viewport.viewportToWorld(col, row);
-//                Optional<PImage> image =
-//                        getBackgroundImage(view.world, worldPoint);
-//                if (image.isPresent()) {
-//                    view.screen.image(image.get(), col * view.tileWidth,
-//                            row * view.tileHeight);
-//                }
-//            }
-//        }
-//    }
-
-//    public static void drawEntities(WorldView view) {
-//        for (Entity entity : view.world.entities) {
-//            Point pos = entity.position;
-//
-//            if (contains(view.viewport, pos)) {
-//                Point viewPoint = worldToViewport(view.viewport, pos.x, pos.y);
-//                view.screen.image(getCurrentImage(entity),
-//                        viewPoint.x * view.tileWidth,
-//                        viewPoint.y * view.tileHeight);
-//            }
-//        }
-//    }
-//
-//    public static void drawViewport(WorldView view) {
-//        drawBackground(view);
-//        drawEntities(view);
-//    }
-
-//    public static Action createAnimationAction(Entity entity, int repeatCount) {
-//        return new Action(ActionKind.ANIMATION, entity, null, null,
-//                repeatCount);
-//    }
-
-//    public static Action createActivityAction(
-//            Entity entity, WorldModel world, ImageStore imageStore)
-//    {
-//        return new Action(ActionKind.ACTIVITY, entity, world, imageStore, 0);
-//    }
 
     public static Entity createHouse(
             String id, Point position, List<PImage> images) {
