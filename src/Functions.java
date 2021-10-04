@@ -8,8 +8,7 @@ import processing.core.PApplet;
  * You will reduce the size of this class over the next several weeks
  * by refactoring this codebase to follow an OOP style.
  */
-public final class Functions
-{
+public final class Functions {
     public static final Random rand = new Random();
 
     public static final int COLOR_MASK = 0xffffff;
@@ -87,324 +86,317 @@ public final class Functions
     public static final int TREE_HEALTH_MIN = 1;
 
 
+//    public static PImage getCurrentImage(Object entity) {
+//        if (entity instanceof Background) {
+//            return ((Background)entity).images.get(
+//                    ((Background)entity).imageIndex);
+//        }
+//        else if (entity instanceof Entity) {
+//            return ((Entity)entity).images.get(((Entity)entity).imageIndex);
+//        }
+//        else {
+//            throw new UnsupportedOperationException(
+//                    String.format("getCurrentImage not supported for %s",
+//                            entity));
+//        }
+//    }
 
-    public static PImage getCurrentImage(Object entity) {
-        if (entity instanceof Background) {
-            return ((Background)entity).images.get(
-                    ((Background)entity).imageIndex);
-        }
-        else if (entity instanceof Entity) {
-            return ((Entity)entity).images.get(((Entity)entity).imageIndex);
-        }
-        else {
-            throw new UnsupportedOperationException(
-                    String.format("getCurrentImage not supported for %s",
-                            entity));
-        }
-    }
+//    public static int getAnimationPeriod(Entity entity) {
+//        switch (entity.kind) {
+//            case DUDE_FULL:
+//            case DUDE_NOT_FULL:
+//            case OBSTACLE:
+//            case FAIRY:
+//            case SAPLING:
+//            case TREE:
+//                return entity.animationPeriod;
+//            default:
+//                throw new UnsupportedOperationException(
+//                        String.format("getAnimationPeriod not supported for %s",
+//                                entity.kind));
+//        }
+//    }
 
-    public static int getAnimationPeriod(Entity entity) {
-        switch (entity.kind) {
-            case DUDE_FULL:
-            case DUDE_NOT_FULL:
-            case OBSTACLE:
-            case FAIRY:
-            case SAPLING:
-            case TREE:
-                return entity.animationPeriod;
-            default:
-                throw new UnsupportedOperationException(
-                        String.format("getAnimationPeriod not supported for %s",
-                                entity.kind));
-        }
-    }
+//    public static void nextImage(Entity entity) {
+//        entity.imageIndex = (entity.imageIndex + 1) % entity.images.size();
+//    }
 
-    public static void nextImage(Entity entity) {
-        entity.imageIndex = (entity.imageIndex + 1) % entity.images.size();
-    }
+//    public static void executeAction(Action action, EventScheduler scheduler) {
+//        switch (action.kind) {
+//            case ACTIVITY:
+//                executeActivityAction(action, scheduler);
+//                break;
+//
+//            case ANIMATION:
+//                executeAnimationAction(action, scheduler);
+//                break;
+//        }
+//    }
+//
+//    public static void executeAnimationAction(
+//            Action action, EventScheduler scheduler)
+//    {
+//        nextImage(action.entity);
+//
+//        if (action.repeatCount != 1) {
+//            scheduleEvent(schedu, action.entity,
+//                    Action.createAnimationAction(action.entity,
+//                            Math.max(action.repeatCount - 1,
+//                                    0)),
+//                    getAnimationPeriod(action.entity));
+//        }
+//    }
+//
+//    public static void executeActivityAction(
+//            Action action, EventScheduler scheduler)
+//    {
+//        switch (action.entity.kind) {
+//            case SAPLING:
+//                executeSaplingActivity(action.entity, action.world,
+//                        action.imageStore, scheduler);
+//                break;
+//
+//            case TREE:
+//                executeTreeActivity(action.entity, action.world,
+//                        action.imageStore, scheduler);
+//                break;
+//
+//            case FAIRY:
+//                executeFairyActivity(action.entity, action.world,
+//                        action.imageStore, scheduler);
+//                break;
+//
+//            case DUDE_NOT_FULL:
+//                executeDudeNotFullActivity(action.entity, action.world,
+//                        action.imageStore, scheduler);
+//                break;
+//
+//            case DUDE_FULL:
+//                executeDudeFullActivity(action.entity, action.world,
+//                        action.imageStore, scheduler);
+//                break;
+//
+//            default:
+//                throw new UnsupportedOperationException(String.format(
+//                        "executeActivityAction not supported for %s",
+//                        action.entity.kind));
+//        }
+//    }
 
-    public static void executeAction(Action action, EventScheduler scheduler) {
-        switch (action.kind) {
-            case ACTIVITY:
-                executeActivityAction(action, scheduler);
-                break;
+//    public static void executeSaplingActivity(
+//            Entity entity,
+//            WorldModel world,
+//            ImageStore imageStore,
+//            EventScheduler scheduler)
+//    {
+//        entity.health++;
+//        if (!transformPlant(entity, world, scheduler, imageStore))
+//        {
+//            scheduleEvent(scheduler, entity,
+//                    createActivityAction(entity, world, imageStore),
+//                    entity.actionPeriod);
+//        }
+//    }
+//
+//    public static void executeTreeActivity(
+//            Entity entity,
+//            WorldModel world,
+//            ImageStore imageStore,
+//            EventScheduler scheduler)
+//    {
+//
+//        if (!transformPlant(entity, world, scheduler, imageStore)) {
+//
+//            scheduleEvent(scheduler, entity,
+//                    createActivityAction(entity, world, imageStore),
+//                    entity.actionPeriod);
+//        }
+//    }
+//
+//    public static void executeFairyActivity(
+//            Entity entity,
+//            WorldModel world,
+//            ImageStore imageStore,
+//            EventScheduler scheduler)
+//    {
+//        Optional<Entity> fairyTarget =
+//                findNearest(world, entity.position, new ArrayList<>(Arrays.asList(EntityKind.STUMP)));
+//
+//        if (fairyTarget.isPresent()) {
+//            Point tgtPos = fairyTarget.get().position;
+//
+//            if (moveToFairy(entity, world, fairyTarget.get(), scheduler)) {
+//                Entity sapling = createSapling("sapling_" + entity.id, tgtPos,
+//                        getImageList(imageStore, SAPLING_KEY));
+//
+//                sapling.addEntity(world);
+//                scheduleActions(sapling, scheduler, world, imageStore);
+//            }
+//        }
+//
+//        scheduleEvent(scheduler, entity,
+//                createActivityAction(entity, world, imageStore),
+//                entity.actionPeriod);
+//    }
+//
+//    public static void executeDudeNotFullActivity(
+//            Entity entity,
+//            WorldModel world,
+//            ImageStore imageStore,
+//            EventScheduler scheduler)
+//    {
+//        Optional<Entity> target =
+//                findNearest(world, entity.position, new ArrayList<>(Arrays.asList(EntityKind.TREE, EntityKind.SAPLING)));
+//
+//        if (!target.isPresent() || !moveToNotFull(entity, world,
+//                target.get(),
+//                scheduler)
+//                || !transformNotFull(entity, world, scheduler, imageStore))
+//        {
+//            scheduleEvent(scheduler, entity,
+//                    createActivityAction(entity, world, imageStore),
+//                    entity.actionPeriod);
+//        }
+//    }
+//
+//    public static void executeDudeFullActivity(
+//            Entity entity,
+//            WorldModel world,
+//            ImageStore imageStore,
+//            EventScheduler scheduler)
+//    {
+//        Optional<Entity> fullTarget =
+//                findNearest(world, entity.position, new ArrayList<>(Arrays.asList(EntityKind.HOUSE)));
+//
+//        if (fullTarget.isPresent() && moveToFull(entity, world,
+//                fullTarget.get(), scheduler))
+//        {
+//            transformFull(entity, world, scheduler, imageStore);
+//        }
+//        else {
+//            scheduleEvent(scheduler, entity,
+//                    createActivityAction(entity, world, imageStore),
+//                    entity.actionPeriod);
+//        }
+//    }
+//
+//
+//    public static void scheduleActions(
+//            Entity entity,
+//            EventScheduler scheduler,
+//            WorldModel world,
+//            ImageStore imageStore)
+//    {
+//        switch (entity.kind) {
+//            case DUDE_FULL:
+//                scheduleEvent(scheduler, entity,
+//                        createActivityAction(entity, world, imageStore),
+//                        entity.actionPeriod);
+//                scheduleEvent(scheduler, entity,
+//                        createAnimationAction(entity, 0),
+//                        getAnimationPeriod(entity));
+//                break;
+//
+//            case DUDE_NOT_FULL:
+//                scheduleEvent(scheduler, entity,
+//                        createActivityAction(entity, world, imageStore),
+//                        entity.actionPeriod);
+//                scheduleEvent(scheduler, entity,
+//                        createAnimationAction(entity, 0),
+//                        getAnimationPeriod(entity));
+//                break;
+//
+//            case OBSTACLE:
+//                scheduleEvent(scheduler, entity,
+//                        createAnimationAction(entity, 0),
+//                        getAnimationPeriod(entity));
+//                break;
+//
+//            case FAIRY:
+//                scheduleEvent(scheduler, entity,
+//                        createActivityAction(entity, world, imageStore),
+//                        entity.actionPeriod);
+//                scheduleEvent(scheduler, entity,
+//                        createAnimationAction(entity, 0),
+//                        getAnimationPeriod(entity));
+//                break;
+//
+//            case SAPLING:
+//                scheduleEvent(scheduler, entity,
+//                        createActivityAction(entity, world, imageStore),
+//                        entity.actionPeriod);
+//                scheduleEvent(scheduler, entity,
+//                        createAnimationAction(entity, 0),
+//                        getAnimationPeriod(entity));
+//                break;
+//
+//            case TREE:
+//                scheduleEvent(scheduler, entity,
+//                        createActivityAction(entity, world, imageStore),
+//                        entity.actionPeriod);
+//                scheduleEvent(scheduler, entity,
+//                        createAnimationAction(entity, 0),
+//                        getAnimationPeriod(entity));
+//                break;
+//
+//            default:
+//        }
+//    }
 
-            case ANIMATION:
-                executeAnimationAction(action, scheduler);
-                break;
-        }
-    }
+//    public static boolean transformNotFull(
+//            Entity entity,
+//            WorldModel world,
+//            EventScheduler scheduler,
+//            ImageStore imageStore)
+//    {
+//        if (entity.resourceCount >= entity.resourceLimit) {
+//            Entity miner = createDudeFull(entity.id,
+//                    entity.position, entity.actionPeriod,
+//                    entity.animationPeriod,
+//                    entity.resourceLimit,
+//                    entity.images);
+//
+//            entity.removeEntity(world);
+//            unscheduleAllEvents(scheduler, entity);
+//
+//            miner.addEntity(world);
+//            scheduleActions(miner, scheduler, world, imageStore);
+//
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
-    public static void executeAnimationAction(
-            Action action, EventScheduler scheduler)
-    {
-        nextImage(action.entity);
-
-        if (action.repeatCount != 1) {
-            scheduleEvent(scheduler, action.entity,
-                    createAnimationAction(action.entity,
-                            Math.max(action.repeatCount - 1,
-                                    0)),
-                    getAnimationPeriod(action.entity));
-        }
-    }
-
-    public static void executeActivityAction(
-            Action action, EventScheduler scheduler)
-    {
-        switch (action.entity.kind) {
-            case SAPLING:
-                executeSaplingActivity(action.entity, action.world,
-                        action.imageStore, scheduler);
-                break;
-
-            case TREE:
-                executeTreeActivity(action.entity, action.world,
-                        action.imageStore, scheduler);
-                break;
-
-            case FAIRY:
-                executeFairyActivity(action.entity, action.world,
-                        action.imageStore, scheduler);
-                break;
-
-            case DUDE_NOT_FULL:
-                executeDudeNotFullActivity(action.entity, action.world,
-                        action.imageStore, scheduler);
-                break;
-
-            case DUDE_FULL:
-                executeDudeFullActivity(action.entity, action.world,
-                        action.imageStore, scheduler);
-                break;
-
-            default:
-                throw new UnsupportedOperationException(String.format(
-                        "executeActivityAction not supported for %s",
-                        action.entity.kind));
-        }
-    }
-
-    public static void executeSaplingActivity(
-            Entity entity,
-            WorldModel world,
-            ImageStore imageStore,
-            EventScheduler scheduler)
-    {
-        entity.health++;
-        if (!transformPlant(entity, world, scheduler, imageStore))
-        {
-            scheduleEvent(scheduler, entity,
-                    createActivityAction(entity, world, imageStore),
-                    entity.actionPeriod);
-        }
-    }
-
-    public static void executeTreeActivity(
-            Entity entity,
-            WorldModel world,
-            ImageStore imageStore,
-            EventScheduler scheduler)
-    {
-
-        if (!transformPlant(entity, world, scheduler, imageStore)) {
-
-            scheduleEvent(scheduler, entity,
-                    createActivityAction(entity, world, imageStore),
-                    entity.actionPeriod);
-        }
-    }
-
-    public static void executeFairyActivity(
-            Entity entity,
-            WorldModel world,
-            ImageStore imageStore,
-            EventScheduler scheduler)
-    {
-        Optional<Entity> fairyTarget =
-                findNearest(world, entity.position, new ArrayList<>(Arrays.asList(EntityKind.STUMP)));
-
-        if (fairyTarget.isPresent()) {
-            Point tgtPos = fairyTarget.get().position;
-
-            if (moveToFairy(entity, world, fairyTarget.get(), scheduler)) {
-                Entity sapling = createSapling("sapling_" + entity.id, tgtPos,
-                        getImageList(imageStore, SAPLING_KEY));
-
-                sapling.addEntity(world);
-                scheduleActions(sapling, scheduler, world, imageStore);
-            }
-        }
-
-        scheduleEvent(scheduler, entity,
-                createActivityAction(entity, world, imageStore),
-                entity.actionPeriod);
-    }
-
-    public static void executeDudeNotFullActivity(
-            Entity entity,
-            WorldModel world,
-            ImageStore imageStore,
-            EventScheduler scheduler)
-    {
-        Optional<Entity> target =
-                findNearest(world, entity.position, new ArrayList<>(Arrays.asList(EntityKind.TREE, EntityKind.SAPLING)));
-
-        if (!target.isPresent() || !moveToNotFull(entity, world,
-                target.get(),
-                scheduler)
-                || !transformNotFull(entity, world, scheduler, imageStore))
-        {
-            scheduleEvent(scheduler, entity,
-                    createActivityAction(entity, world, imageStore),
-                    entity.actionPeriod);
-        }
-    }
-
-    public static void executeDudeFullActivity(
-            Entity entity,
-            WorldModel world,
-            ImageStore imageStore,
-            EventScheduler scheduler)
-    {
-        Optional<Entity> fullTarget =
-                findNearest(world, entity.position, new ArrayList<>(Arrays.asList(EntityKind.HOUSE)));
-
-        if (fullTarget.isPresent() && moveToFull(entity, world,
-                fullTarget.get(), scheduler))
-        {
-            transformFull(entity, world, scheduler, imageStore);
-        }
-        else {
-            scheduleEvent(scheduler, entity,
-                    createActivityAction(entity, world, imageStore),
-                    entity.actionPeriod);
-        }
-    }
-
-
-    public static void scheduleActions(
-            Entity entity,
-            EventScheduler scheduler,
-            WorldModel world,
-            ImageStore imageStore)
-    {
-        switch (entity.kind) {
-            case DUDE_FULL:
-                scheduleEvent(scheduler, entity,
-                        createActivityAction(entity, world, imageStore),
-                        entity.actionPeriod);
-                scheduleEvent(scheduler, entity,
-                        createAnimationAction(entity, 0),
-                        getAnimationPeriod(entity));
-                break;
-
-            case DUDE_NOT_FULL:
-                scheduleEvent(scheduler, entity,
-                        createActivityAction(entity, world, imageStore),
-                        entity.actionPeriod);
-                scheduleEvent(scheduler, entity,
-                        createAnimationAction(entity, 0),
-                        getAnimationPeriod(entity));
-                break;
-
-            case OBSTACLE:
-                scheduleEvent(scheduler, entity,
-                        createAnimationAction(entity, 0),
-                        getAnimationPeriod(entity));
-                break;
-
-            case FAIRY:
-                scheduleEvent(scheduler, entity,
-                        createActivityAction(entity, world, imageStore),
-                        entity.actionPeriod);
-                scheduleEvent(scheduler, entity,
-                        createAnimationAction(entity, 0),
-                        getAnimationPeriod(entity));
-                break;
-
-            case SAPLING:
-                scheduleEvent(scheduler, entity,
-                        createActivityAction(entity, world, imageStore),
-                        entity.actionPeriod);
-                scheduleEvent(scheduler, entity,
-                        createAnimationAction(entity, 0),
-                        getAnimationPeriod(entity));
-                break;
-
-            case TREE:
-                scheduleEvent(scheduler, entity,
-                        createActivityAction(entity, world, imageStore),
-                        entity.actionPeriod);
-                scheduleEvent(scheduler, entity,
-                        createAnimationAction(entity, 0),
-                        getAnimationPeriod(entity));
-                break;
-
-            default:
-        }
-    }
-
-    public static boolean transformNotFull(
-            Entity entity,
-            WorldModel world,
-            EventScheduler scheduler,
-            ImageStore imageStore)
-    {
-        if (entity.resourceCount >= entity.resourceLimit) {
-            Entity miner = createDudeFull(entity.id,
-                    entity.position, entity.actionPeriod,
-                    entity.animationPeriod,
-                    entity.resourceLimit,
-                    entity.images);
-
-            entity.removeEntity(world);
-            unscheduleAllEvents(scheduler, entity);
-
-            miner.addEntity(world);
-            scheduleActions(miner, scheduler, world, imageStore);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public static void transformFull(
-            Entity entity,
-            WorldModel world,
-            EventScheduler scheduler,
-            ImageStore imageStore)
-    {
-        Entity miner = createDudeNotFull(entity.id,
-                entity.position, entity.actionPeriod,
-                entity.animationPeriod,
-                entity.resourceLimit,
-                entity.images);
-
-        entity.removeEntity(world);
-        unscheduleAllEvents(scheduler, entity);
-
-        miner.addEntity(world);
-        scheduleActions(miner, scheduler, world, imageStore);
-    }
+//    public static void transformFull(
+//            Entity entity,
+//            WorldModel world,
+//            EventScheduler scheduler,
+//            ImageStore imageStore)
+//    {
+//        Entity miner = createDudeNotFull(entity.id,
+//                entity.position, entity.actionPeriod,
+//                entity.animationPeriod,
+//                entity.resourceLimit,
+//                entity.images);
+//
+//        entity.removeEntity(world);
+//        unscheduleAllEvents(scheduler, entity);
+//
+//        miner.addEntity(world);
+//        scheduleActions(miner, scheduler, world, imageStore);
+//    }
 
 
-    public static boolean transformPlant( Entity entity,
-                                          WorldModel world,
-                                          EventScheduler scheduler,
-                                          ImageStore imageStore)
-    {
-        if (entity.kind == EntityKind.TREE)
-        {
+    public static boolean transformPlant(Entity entity,
+                                         WorldModel world,
+                                         EventScheduler scheduler,
+                                         ImageStore imageStore) {
+        if (entity.kind == EntityKind.TREE) {
             return transformTree(entity, world, scheduler, imageStore);
-        }
-        else if (entity.kind == EntityKind.SAPLING)
-        {
+        } else if (entity.kind == EntityKind.SAPLING) {
             return transformSapling(entity, world, scheduler, imageStore);
-        }
-        else
-        {
+        } else {
             throw new UnsupportedOperationException(
                     String.format("transformPlant not supported for %s", entity));
         }
@@ -414,18 +406,17 @@ public final class Functions
             Entity entity,
             WorldModel world,
             EventScheduler scheduler,
-            ImageStore imageStore)
-    {
+            ImageStore imageStore) {
         if (entity.health <= 0) {
             Entity stump = createStump(entity.id,
                     entity.position,
-                    getImageList(imageStore, STUMP_KEY));
+                    imageStore.getImageList(STUMP_KEY));
 
             entity.removeEntity(world);
             unscheduleAllEvents(scheduler, entity);
 
             stump.addEntity(world);
-            scheduleActions(stump, scheduler, world, imageStore);
+            scheduler.scheduleActions(stump, world, imageStore);
 
             return true;
         }
@@ -437,35 +428,32 @@ public final class Functions
             Entity entity,
             WorldModel world,
             EventScheduler scheduler,
-            ImageStore imageStore)
-    {
+            ImageStore imageStore) {
         if (entity.health <= 0) {
             Entity stump = createStump(entity.id,
                     entity.position,
-                    getImageList(imageStore, STUMP_KEY));
+                    imageStore.getImageList(STUMP_KEY));
 
             entity.removeEntity(world);
             unscheduleAllEvents(scheduler, entity);
 
             stump.addEntity(world);
-            scheduleActions(stump, scheduler, world, imageStore);
+            scheduler.scheduleActions(stump, world, imageStore);
 
             return true;
-        }
-        else if (entity.health >= entity.healthLimit)
-        {
+        } else if (entity.health >= entity.healthLimit) {
             Entity tree = createTree("tree_" + entity.id,
                     entity.position,
                     getNumFromRange(TREE_ACTION_MAX, TREE_ACTION_MIN),
                     getNumFromRange(TREE_ANIMATION_MAX, TREE_ANIMATION_MIN),
                     getNumFromRange(TREE_HEALTH_MAX, TREE_HEALTH_MIN),
-                    getImageList(imageStore, TREE_KEY));
+                    imageStore.getImageList(TREE_KEY));
 
             entity.removeEntity(world);
             unscheduleAllEvents(scheduler, entity);
 
             tree.addEntity(world);
-            scheduleActions(tree, scheduler, world, imageStore);
+            scheduler.scheduleActions(tree, world, imageStore);
 
             return true;
         }
@@ -477,14 +465,12 @@ public final class Functions
             Entity fairy,
             WorldModel world,
             Entity target,
-            EventScheduler scheduler)
-    {
+            EventScheduler scheduler) {
         if (adjacent(fairy.position, target.position)) {
             target.removeEntity(world);
             unscheduleAllEvents(scheduler, target);
             return true;
-        }
-        else {
+        } else {
             Point nextPos = nextPositionFairy(fairy, world, target.position);
 
             if (!fairy.position.equals(nextPos)) {
@@ -503,14 +489,12 @@ public final class Functions
             Entity dude,
             WorldModel world,
             Entity target,
-            EventScheduler scheduler)
-    {
+            EventScheduler scheduler) {
         if (adjacent(dude.position, target.position)) {
             dude.resourceCount += 1;
             target.health--;
             return true;
-        }
-        else {
+        } else {
             Point nextPos = nextPositionDude(dude, world, target.position);
 
             if (!dude.position.equals(nextPos)) {
@@ -529,12 +513,10 @@ public final class Functions
             Entity dude,
             WorldModel world,
             Entity target,
-            EventScheduler scheduler)
-    {
+            EventScheduler scheduler) {
         if (adjacent(dude.position, target.position)) {
             return true;
-        }
-        else {
+        } else {
             Point nextPos = nextPositionDude(dude, world, target.position);
 
             if (!dude.position.equals(nextPos)) {
@@ -550,8 +532,7 @@ public final class Functions
     }
 
     public static Point nextPositionFairy(
-            Entity entity, WorldModel world, Point destPos)
-    {
+            Entity entity, WorldModel world, Point destPos) {
         int horiz = Integer.signum(destPos.x - entity.position.x);
         Point newPos = new Point(entity.position.x + horiz, entity.position.y);
 
@@ -568,8 +549,7 @@ public final class Functions
     }
 
     public static Point nextPositionDude(
-            Entity entity, WorldModel world, Point destPos)
-    {
+            Entity entity, WorldModel world, Point destPos) {
         int horiz = Integer.signum(destPos.x - entity.position.x);
         Point newPos = new Point(entity.position.x + horiz, entity.position.y);
 
@@ -577,7 +557,7 @@ public final class Functions
             int vert = Integer.signum(destPos.y - entity.position.y);
             newPos = new Point(entity.position.x, entity.position.y + vert);
 
-            if (vert == 0 || world.isOccupied(newPos) &&  world.getOccupancyCell(newPos).kind != EntityKind.STUMP) {
+            if (vert == 0 || world.isOccupied(newPos) && world.getOccupancyCell(newPos).kind != EntityKind.STUMP) {
                 newPos = entity.position;
             }
         }
@@ -591,36 +571,34 @@ public final class Functions
                 && Math.abs(p1.x - p2.x) == 1);
     }
 
-    public static int getNumFromRange(int max, int min)
-    {
+    public static int getNumFromRange(int max, int min) {
         Random rand = new Random();
         return min + rand.nextInt(
                 max
                         - min);
     }
 
-    public static void scheduleEvent(
-            EventScheduler scheduler,
-            Entity entity,
-            Action action,
-            long afterPeriod)
-    {
-        long time = System.currentTimeMillis() + (long)(afterPeriod
-                * scheduler.timeScale);
-        Event event = new Event(action, time, entity);
-
-        scheduler.eventQueue.add(event);
-
-        // update list of pending events for the given entity
-        List<Event> pending = scheduler.pendingEvents.getOrDefault(entity,
-                new LinkedList<>());
-        pending.add(event);
-        scheduler.pendingEvents.put(entity, pending);
-    }
+//    public static void scheduleEvent(
+//            EventScheduler scheduler,
+//            Entity entity,
+//            Action action,
+//            long afterPeriod)
+//    {
+//        long time = System.currentTimeMillis() + (long)(afterPeriod
+//                * scheduler.timeScale);
+//        Event event = new Event(action, time, entity);
+//
+//        scheduler.eventQueue.add(event);
+//
+//        // update list of pending events for the given entity
+//        List<Event> pending = scheduler.pendingEvents.getOrDefault(entity,
+//                new LinkedList<>());
+//        pending.add(event);
+//        scheduler.pendingEvents.put(entity, pending);
+//    }
 
     public static void unscheduleAllEvents(
-            EventScheduler scheduler, Entity entity)
-    {
+            EventScheduler scheduler, Entity entity) {
         List<Event> pending = scheduler.pendingEvents.remove(entity);
 
         if (pending != null) {
@@ -631,8 +609,7 @@ public final class Functions
     }
 
     public static void removePendingEvent(
-            EventScheduler scheduler, Event event)
-    {
+            EventScheduler scheduler, Event event) {
         List<Event> pending = scheduler.pendingEvents.get(event.entity);
 
         if (pending != null) {
@@ -647,23 +624,18 @@ public final class Functions
 
             removePendingEvent(scheduler, next);
 
-            executeAction(next.action, scheduler);
+            next.action.executeAction(scheduler);
         }
     }
 
-    public static List<PImage> getImageList(ImageStore imageStore, String key) {
-        return imageStore.images.getOrDefault(key, imageStore.defaultImages);
-    }
 
     public static void loadImages(
-            Scanner in, ImageStore imageStore, PApplet screen)
-    {
+            Scanner in, ImageStore imageStore, PApplet screen) {
         int lineNumber = 0;
         while (in.hasNextLine()) {
             try {
                 processImageLine(imageStore.images, in.nextLine(), screen);
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 System.out.println(
                         String.format("Image format error on line %d",
                                 lineNumber));
@@ -673,8 +645,7 @@ public final class Functions
     }
 
     public static void processImageLine(
-            Map<String, List<PImage>> images, String line, PApplet screen)
-    {
+            Map<String, List<PImage>> images, String line, PApplet screen) {
         String[] attrs = line.split("\\s");
         if (attrs.length >= 2) {
             String key = attrs[0];
@@ -694,8 +665,7 @@ public final class Functions
     }
 
     public static List<PImage> getImages(
-            Map<String, List<PImage>> images, String key)
-    {
+            Map<String, List<PImage>> images, String key) {
         List<PImage> imgs = images.get(key);
         if (imgs == null) {
             imgs = new LinkedList<>();
@@ -732,8 +702,7 @@ public final class Functions
 //    }
 
     public static void load(
-            Scanner in, WorldModel world, ImageStore imageStore)
-    {
+            Scanner in, WorldModel world, ImageStore imageStore) {
         int lineNumber = 0;
         while (in.hasNextLine()) {
             try {
@@ -741,12 +710,10 @@ public final class Functions
                     System.err.println(String.format("invalid entry on line %d",
                             lineNumber));
                 }
-            }
-            catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 System.err.println(
                         String.format("invalid entry on line %d", lineNumber));
-            }
-            catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 System.err.println(
                         String.format("issue on line %d: %s", lineNumber,
                                 e.getMessage()));
@@ -756,8 +723,7 @@ public final class Functions
     }
 
     public static boolean processLine(
-            String line, WorldModel world, ImageStore imageStore)
-    {
+            String line, WorldModel world, ImageStore imageStore) {
         String[] properties = line.split("\\s");
         if (properties.length > 0) {
             switch (properties[PROPERTY_KEY]) {
@@ -782,56 +748,52 @@ public final class Functions
     }
 
     public static boolean parseBackground(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
+            String[] properties, WorldModel world, ImageStore imageStore) {
         if (properties.length == BGND_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[BGND_COL]),
                     Integer.parseInt(properties[BGND_ROW]));
             String id = properties[BGND_ID];
             world.setBackground(pt,
-                    new Background(id, getImageList(imageStore, id)));
+                    new Background(id, imageStore.getImageList(id)));
         }
 
         return properties.length == BGND_NUM_PROPERTIES;
     }
 
     public static boolean parseSapling(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
+            String[] properties, WorldModel world, ImageStore imageStore) {
         if (properties.length == SAPLING_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[SAPLING_COL]),
                     Integer.parseInt(properties[SAPLING_ROW]));
             String id = properties[SAPLING_ID];
             int health = Integer.parseInt(properties[SAPLING_HEALTH]);
-            Entity entity = new Entity(EntityKind.SAPLING, id, pt, getImageList(imageStore, SAPLING_KEY), 0, 0,
+            Entity entity = new Entity(EntityKind.SAPLING, id, pt, imageStore.getImageList(SAPLING_KEY), 0, 0,
                     SAPLING_ACTION_ANIMATION_PERIOD, SAPLING_ACTION_ANIMATION_PERIOD, health, SAPLING_HEALTH_LIMIT);
-            tryAddEntity(world, entity);
+            entity.tryAddEntity(world);
         }
 
         return properties.length == SAPLING_NUM_PROPERTIES;
     }
 
     public static boolean parseDude(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
+            String[] properties, WorldModel world, ImageStore imageStore) {
         if (properties.length == DUDE_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[DUDE_COL]),
                     Integer.parseInt(properties[DUDE_ROW]));
-            Entity entity = createDudeNotFull(properties[DUDE_ID],
+            Entity entity = Entity.createDudeNotFull(properties[DUDE_ID],
                     pt,
                     Integer.parseInt(properties[DUDE_ACTION_PERIOD]),
                     Integer.parseInt(properties[DUDE_ANIMATION_PERIOD]),
                     Integer.parseInt(properties[DUDE_LIMIT]),
-                    getImageList(imageStore, DUDE_KEY));
-            tryAddEntity(world, entity);
+                    imageStore.getImageList(DUDE_KEY));
+            entity.tryAddEntity(world);
         }
 
         return properties.length == DUDE_NUM_PROPERTIES;
     }
 
     public static boolean parseFairy(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
+            String[] properties, WorldModel world, ImageStore imageStore) {
         if (properties.length == FAIRY_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[FAIRY_COL]),
                     Integer.parseInt(properties[FAIRY_ROW]));
@@ -839,16 +801,15 @@ public final class Functions
                     pt,
                     Integer.parseInt(properties[FAIRY_ACTION_PERIOD]),
                     Integer.parseInt(properties[FAIRY_ANIMATION_PERIOD]),
-                    getImageList(imageStore, FAIRY_KEY));
-            tryAddEntity(world, entity);
+                    imageStore.getImageList(FAIRY_KEY));
+            entity.tryAddEntity(world);
         }
 
         return properties.length == FAIRY_NUM_PROPERTIES;
     }
 
     public static boolean parseTree(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
+            String[] properties, WorldModel world, ImageStore imageStore) {
         if (properties.length == TREE_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[TREE_COL]),
                     Integer.parseInt(properties[TREE_ROW]));
@@ -857,53 +818,49 @@ public final class Functions
                     Integer.parseInt(properties[TREE_ACTION_PERIOD]),
                     Integer.parseInt(properties[TREE_ANIMATION_PERIOD]),
                     Integer.parseInt(properties[TREE_HEALTH]),
-                    getImageList(imageStore, TREE_KEY));
-            tryAddEntity(world, entity);
+                    imageStore.getImageList(TREE_KEY));
+            entity.tryAddEntity(world);
         }
 
         return properties.length == TREE_NUM_PROPERTIES;
     }
 
     public static boolean parseObstacle(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
+            String[] properties, WorldModel world, ImageStore imageStore) {
         if (properties.length == OBSTACLE_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[OBSTACLE_COL]),
                     Integer.parseInt(properties[OBSTACLE_ROW]));
             Entity entity = createObstacle(properties[OBSTACLE_ID], pt,
                     Integer.parseInt(properties[OBSTACLE_ANIMATION_PERIOD]),
-                    getImageList(imageStore,
-                            OBSTACLE_KEY));
-            tryAddEntity(world, entity);
+                    imageStore.getImageList(OBSTACLE_KEY));
+            entity.tryAddEntity(world);
         }
 
         return properties.length == OBSTACLE_NUM_PROPERTIES;
     }
 
     public static boolean parseHouse(
-            String[] properties, WorldModel world, ImageStore imageStore)
-    {
+            String[] properties, WorldModel world, ImageStore imageStore) {
         if (properties.length == HOUSE_NUM_PROPERTIES) {
             Point pt = new Point(Integer.parseInt(properties[HOUSE_COL]),
                     Integer.parseInt(properties[HOUSE_ROW]));
             Entity entity = createHouse(properties[HOUSE_ID], pt,
-                    getImageList(imageStore,
-                            HOUSE_KEY));
-            tryAddEntity(world, entity);
+                    imageStore.getImageList(HOUSE_KEY));
+            entity.tryAddEntity(world);
         }
 
         return properties.length == HOUSE_NUM_PROPERTIES;
     }
 
-    public static void tryAddEntity(WorldModel world, Entity entity) {
-        if (world.isOccupied(entity.position)) {
-            // arguably the wrong type of exception, but we are not
-            // defining our own exceptions yet
-            throw new IllegalArgumentException("position occupied");
-        }
-
-        entity.addEntity(world);
-    }
+//    public static void tryAddEntity(WorldModel world, Entity entity) {
+//        if (world.isOccupied(entity.position)) {
+//            // arguably the wrong type of exception, but we are not
+//            // defining our own exceptions yet
+//            throw new IllegalArgumentException("position occupied");
+//        }
+//
+//        entity.addEntity(world);
+//    }
 
 //    public static boolean withinBounds(WorldModel world, Point pos) {
 //        return pos.y >= 0 && pos.y < world.numRows && pos.x >= 0
@@ -914,51 +871,45 @@ public final class Functions
 //        return withinBounds(world, pos) && world.getOccupancyCell(pos) != null;
 //    }
 
-    public static Optional<Entity> nearestEntity(
-            List<Entity> entities, Point pos)
-    {
-        if (entities.isEmpty()) {
-            return Optional.empty();
-        }
-        else {
-            Entity nearest = entities.get(0);
-            int nearestDistance = distanceSquared(nearest.position, pos);
+//    public static Optional<Entity> nearestEntity(
+//            List<Entity> entities, Point pos)
+//    {
+//        if (entities.isEmpty()) {
+//            return Optional.empty();
+//        }
+//        else {
+//            Entity nearest = entities.get(0);
+//            int nearestDistance = Point.distanceSquared(nearest.position, pos);
+//
+//            for (Entity other : entities) {
+//                int otherDistance = Point.distanceSquared(other.position, pos);
+//
+//                if (otherDistance < nearestDistance) {
+//                    nearest = other;
+//                    nearestDistance = otherDistance;
+//                }
+//            }
+//
+//            return Optional.of(nearest);
+//        }
+//    }
 
-            for (Entity other : entities) {
-                int otherDistance = distanceSquared(other.position, pos);
 
-                if (otherDistance < nearestDistance) {
-                    nearest = other;
-                    nearestDistance = otherDistance;
-                }
-            }
-
-            return Optional.of(nearest);
-        }
-    }
-
-    public static int distanceSquared(Point p1, Point p2) {
-        int deltaX = p1.x - p2.x;
-        int deltaY = p1.y - p2.y;
-
-        return deltaX * deltaX + deltaY * deltaY;
-    }
-
-    public static Optional<Entity> findNearest(
-            WorldModel world, Point pos, List<EntityKind> kinds)
-    {
-        List<Entity> ofType = new LinkedList<>();
-        for (EntityKind kind: kinds)
-        {
-            for (Entity entity : world.entities) {
-                if (entity.kind == kind) {
-                    ofType.add(entity);
-                }
-            }
-        }
-
-        return nearestEntity(ofType, pos);
-    }
+//    public static Optional<Entity> findNearest(
+//            WorldModel world, Point pos, List<EntityKind> kinds)
+//    {
+//        List<Entity> ofType = new LinkedList<>();
+//        for (EntityKind kind: kinds)
+//        {
+//            for (Entity entity : world.entities) {
+//                if (entity.kind == kind) {
+//                    ofType.add(entity);
+//                }
+//            }
+//        }
+//
+//        return nearestEntity(ofType, pos);
+//    }
 
     /*
        Assumes that there is no entity currently occupying the
@@ -1047,8 +998,6 @@ public final class Functions
 //    }
 
 
-
-
 //    public static int clamp(int value, int low, int high) {
 //        return Math.min(high, Math.max(value, low));
 //    }
@@ -1094,27 +1043,25 @@ public final class Functions
 //        drawEntities(view);
 //    }
 
-    public static Action createAnimationAction(Entity entity, int repeatCount) {
-        return new Action(ActionKind.ANIMATION, entity, null, null,
-                repeatCount);
-    }
+//    public static Action createAnimationAction(Entity entity, int repeatCount) {
+//        return new Action(ActionKind.ANIMATION, entity, null, null,
+//                repeatCount);
+//    }
 
-    public static Action createActivityAction(
-            Entity entity, WorldModel world, ImageStore imageStore)
-    {
-        return new Action(ActionKind.ACTIVITY, entity, world, imageStore, 0);
-    }
+//    public static Action createActivityAction(
+//            Entity entity, WorldModel world, ImageStore imageStore)
+//    {
+//        return new Action(ActionKind.ACTIVITY, entity, world, imageStore, 0);
+//    }
 
     public static Entity createHouse(
-            String id, Point position, List<PImage> images)
-    {
+            String id, Point position, List<PImage> images) {
         return new Entity(EntityKind.HOUSE, id, position, images, 0, 0, 0,
                 0, 0, 0);
     }
 
     public static Entity createObstacle(
-            String id, Point position, int animationPeriod, List<PImage> images)
-    {
+            String id, Point position, int animationPeriod, List<PImage> images) {
         return new Entity(EntityKind.OBSTACLE, id, position, images, 0, 0, 0,
                 animationPeriod, 0, 0);
     }
@@ -1125,8 +1072,7 @@ public final class Functions
             int actionPeriod,
             int animationPeriod,
             int health,
-            List<PImage> images)
-    {
+            List<PImage> images) {
         return new Entity(EntityKind.TREE, id, position, images, 0, 0,
                 actionPeriod, animationPeriod, health, 0);
     }
@@ -1134,8 +1080,7 @@ public final class Functions
     public static Entity createStump(
             String id,
             Point position,
-            List<PImage> images)
-    {
+            List<PImage> images) {
         return new Entity(EntityKind.STUMP, id, position, images, 0, 0,
                 0, 0, 0, 0);
     }
@@ -1144,8 +1089,7 @@ public final class Functions
     public static Entity createSapling(
             String id,
             Point position,
-            List<PImage> images)
-    {
+            List<PImage> images) {
         return new Entity(EntityKind.SAPLING, id, position, images, 0, 0,
                 SAPLING_ACTION_ANIMATION_PERIOD, SAPLING_ACTION_ANIMATION_PERIOD, 0, SAPLING_HEALTH_LIMIT);
     }
@@ -1155,34 +1099,9 @@ public final class Functions
             Point position,
             int actionPeriod,
             int animationPeriod,
-            List<PImage> images)
-    {
+            List<PImage> images) {
         return new Entity(EntityKind.FAIRY, id, position, images, 0, 0,
                 actionPeriod, animationPeriod, 0, 0);
     }
-
-    // need resource count, though it always starts at 0
-    public static Entity createDudeNotFull(
-            String id,
-            Point position,
-            int actionPeriod,
-            int animationPeriod,
-            int resourceLimit,
-            List<PImage> images)
-    {
-        return new Entity(EntityKind.DUDE_NOT_FULL, id, position, images, resourceLimit, 0,
-                actionPeriod, animationPeriod, 0, 0);
-    }
-
-    // don't technically need resource count ... full
-    public static Entity createDudeFull(
-            String id,
-            Point position,
-            int actionPeriod,
-            int animationPeriod,
-            int resourceLimit,
-            List<PImage> images) {
-        return new Entity(EntityKind.DUDE_FULL, id, position, images, resourceLimit, 0,
-                actionPeriod, animationPeriod, 0, 0);
-    }
 }
+

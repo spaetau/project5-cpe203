@@ -66,4 +66,116 @@ public final class Entity
             world.entities.add(this);
         }
     }
+    public void tryAddEntity(WorldModel world) {
+        if (world.isOccupied(this.position)) {
+            // arguably the wrong type of exception, but we are not
+            // defining our own exceptions yet
+            throw new IllegalArgumentException("position occupied");
+        }
+
+        this.addEntity(world);
+    }
+
+    public static PImage getCurrentImage(Object entity) {
+        if (entity instanceof Background) {
+            return ((Background)entity).images.get(
+                    ((Background)entity).imageIndex);
+        }
+        else if (entity instanceof Entity) {
+            return ((Entity)entity).images.get(((Entity)entity).imageIndex);
+        }
+        else {
+            throw new UnsupportedOperationException(
+                    String.format("getCurrentImage not supported for %s",
+                            entity));
+        }
+    }
+
+    public void nextImage() {
+        this.imageIndex = (this.imageIndex + 1) % this.images.size();
+    }
+
+
+    public int getAnimationPeriod() {
+        switch (this.kind) {
+            case DUDE_FULL:
+            case DUDE_NOT_FULL:
+            case OBSTACLE:
+            case FAIRY:
+            case SAPLING:
+            case TREE:
+                return this.animationPeriod;
+            default:
+                throw new UnsupportedOperationException(
+                        String.format("getAnimationPeriod not supported for %s",
+                                this.kind));
+        }
+
+
+    }
+    public  void transformFull(
+            WorldModel world,
+            EventScheduler scheduler,
+            ImageStore imageStore)
+    {
+        Entity miner = createDudeNotFull(this.id,
+                this.position, this.actionPeriod,
+                this.animationPeriod,
+                this.resourceLimit,
+                this.images);
+
+        this.removeEntity(world);
+        scheduler.unscheduleAllEvents(this);
+
+        miner.addEntity(world);
+        scheduler.scheduleActions(miner, world, imageStore);
+    }
+    public boolean transformNotFull(
+            WorldModel world,
+            EventScheduler scheduler,
+            ImageStore imageStore)
+    {
+        if (this.resourceCount >= this.resourceLimit) {
+            Entity miner = createDudeFull(this.id,
+                    this.position, this.actionPeriod,
+                    this.animationPeriod,
+                    this.resourceLimit,
+                    this.images);
+
+            this.removeEntity(world);
+            scheduler.unscheduleAllEvents(this);
+
+            miner.addEntity(world);
+            scheduler.scheduleActions(miner, world, imageStore);
+
+            return true;
+        }
+
+        return false;
+    }
+    public static Entity createDudeNotFull(
+            String id,
+            Point position,
+            int actionPeriod,
+            int animationPeriod,
+            int resourceLimit,
+            List<PImage> images)
+    {
+        return new Entity(EntityKind.DUDE_NOT_FULL, id, position, images, resourceLimit, 0,
+                actionPeriod, animationPeriod, 0, 0);
+    }
+
+    public static Entity createDudeFull(
+            String id,
+            Point position,
+            int actionPeriod,
+            int animationPeriod,
+            int resourceLimit,
+            List<PImage> images) {
+        return new Entity(EntityKind.DUDE_FULL, id, position, images, resourceLimit, 0,
+                actionPeriod, animationPeriod, 0, 0);
+    }
+
 }
+
+

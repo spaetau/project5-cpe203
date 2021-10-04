@@ -1,9 +1,6 @@
 import processing.core.PImage;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents the 2D World in which this simulation is running.
@@ -79,7 +76,7 @@ public final class WorldModel
            Point pos)
     {
         if (this.withinBounds(pos)) {
-            return Optional.of(Functions.getCurrentImage(this.getBackgroundCell(pos)));
+            return Optional.of(Entity.getCurrentImage(this.getBackgroundCell(pos)));
         }
         else {
             return Optional.empty();
@@ -98,4 +95,42 @@ public final class WorldModel
         }
     }
 
+    public Optional<Entity> findNearest(
+            Point pos, List<EntityKind> kinds)
+    {
+        List<Entity> ofType = new LinkedList<>();
+        for (EntityKind kind: kinds)
+        {
+            for (Entity entity : this.entities) {
+                if (entity.kind == kind) {
+                    ofType.add(entity);
+                }
+            }
+        }
+
+        return nearestEntity(ofType, pos);
+    }
+
+    public static Optional<Entity> nearestEntity(
+            List<Entity> entities, Point pos)
+    {
+        if (entities.isEmpty()) {
+            return Optional.empty();
+        }
+        else {
+            Entity nearest = entities.get(0);
+            int nearestDistance = Point.distanceSquared(nearest.position, pos);
+
+            for (Entity other : entities) {
+                int otherDistance = Point.distanceSquared(other.position, pos);
+
+                if (otherDistance < nearestDistance) {
+                    nearest = other;
+                    nearestDistance = otherDistance;
+                }
+            }
+
+            return Optional.of(nearest);
+        }
+    }
 }
