@@ -84,7 +84,7 @@ public final class VirtualWorld extends PApplet
         Point pressed = mouseToPoint(mouseX, mouseY);
         System.out.println("CLICK! " + pressed.x + ", " + pressed.y);
 
-        Optional<Entity> entityOptional = Functions.getOccupant(world, pressed);
+        Optional<Entity> entityOptional = world.getOccupant(pressed);
         if (entityOptional.isPresent())
         {
             Entity entity = entityOptional.get();

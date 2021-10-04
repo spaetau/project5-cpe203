@@ -45,4 +45,25 @@ public final class Entity
         this.health = health;
         this.healthLimit = healthLimit;
     }
+
+    public void removeEntity(WorldModel world) {
+        world.removeEntityAt(this.position);
+    }
+
+    public void moveEntity(WorldModel world, Point pos) {
+        Point oldPos = this.position;
+        if (world.withinBounds(pos) && !pos.equals(oldPos)) {
+            world.setOccupancyCell(oldPos, null);
+            world.removeEntityAt(pos);
+            world.setOccupancyCell(pos, this);
+            this.position = pos;
+        }
+    }
+
+    public void addEntity(WorldModel world) {
+        if (world.withinBounds(this.position)) {
+            world.setOccupancyCell(this.position, this);
+            world.entities.add(this);
+        }
+    }
 }
