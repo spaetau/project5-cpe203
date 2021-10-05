@@ -54,6 +54,7 @@ public final class Action
                     this.entity.getAnimationPeriod());
         }
     }
+
     public void executeActivityAction(
              EventScheduler scheduler)
     {
@@ -89,9 +90,6 @@ public final class Action
                         this.entity.kind));
         }
     }
-
-
-
 
     public void executeSaplingActivity(
             Entity entity,

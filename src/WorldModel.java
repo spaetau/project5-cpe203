@@ -85,10 +85,12 @@ public final class WorldModel
 
 
     }
+
     public void setBackgroundCell(Point pos, Background backgroundInput)
     {
         this.background[pos.y][pos.x] = backgroundInput;
     }
+
     public Background getBackgroundCell(Point pos) {
         return this.background[pos.y][pos.x];
     }

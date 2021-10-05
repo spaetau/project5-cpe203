@@ -175,9 +175,8 @@ public final class Entity
                         String.format("getAnimationPeriod not supported for %s",
                                 this.kind));
         }
-
-
     }
+
     public  void transformFull(
             WorldModel world,
             EventScheduler scheduler,
@@ -195,6 +194,7 @@ public final class Entity
         miner.addEntity(world);
         scheduler.scheduleActions(miner, world, imageStore);
     }
+
     public boolean transformNotFull(
             WorldModel world,
             EventScheduler scheduler,
@@ -218,6 +218,7 @@ public final class Entity
 
         return false;
     }
+
     public static Entity createDudeNotFull(
             String id,
             Point position,
@@ -242,17 +243,17 @@ public final class Entity
     }
 
     public boolean transformPlant(
-                                         WorldModel world,
-                                         EventScheduler scheduler,
-                                         ImageStore imageStore) {
-        if (this.kind == EntityKind.TREE) {
-            return this.transformTree(world, scheduler, imageStore);
-        } else if (this.kind == EntityKind.SAPLING) {
-            return transformSapling(world, scheduler, imageStore);
-        } else {
-            throw new UnsupportedOperationException(
-                    String.format("transformPlant not supported for %s", this));
-        }
+             WorldModel world,
+             EventScheduler scheduler,
+             ImageStore imageStore) {
+    if (this.kind == EntityKind.TREE) {
+    return this.transformTree(world, scheduler, imageStore);
+    } else if (this.kind == EntityKind.SAPLING) {
+    return transformSapling(world, scheduler, imageStore);
+    } else {
+    throw new UnsupportedOperationException(
+    String.format("transformPlant not supported for %s", this));
+    }
     }
 
     public boolean transformTree(

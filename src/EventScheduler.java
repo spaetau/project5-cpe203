@@ -15,7 +15,6 @@ public final class EventScheduler
         this.timeScale = timeScale;
     }
 
-
     public void scheduleActions(
             Entity entity,
             WorldModel world,
@@ -94,6 +93,7 @@ public final class EventScheduler
         pending.add(event);
         this.pendingEvents.put(entity, pending);
     }
+
     public void unscheduleAllEvents(Entity entity)
     {
         List<Event> pending = this.pendingEvents.remove(entity);
@@ -104,8 +104,6 @@ public final class EventScheduler
             }
         }
     }
-
-
 
     public void removePendingEvent(Event event) {
         List<Event> pending = this.pendingEvents.get(event.entity);
