@@ -44,6 +44,7 @@ public final class WorldView
             }
         }
     }
+
     public void drawEntities() {
         for (Entity entity : this.world.entities) {
             Point pos = entity.position;
