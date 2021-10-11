@@ -17,18 +17,8 @@ public final class WorldModel
 
     public static final String SAPLING_KEY = "sapling";
     public static final int SAPLING_HEALTH_LIMIT = 5;
-    public static final int SAPLING_ACTION_ANIMATION_PERIOD = 1000; // have to be in sync since grows and gains health at same time
-    public static final int SAPLING_NUM_PROPERTIES = 4;
-    public static final int SAPLING_ID = 1;
-    public static final int SAPLING_COL = 2;
-    public static final int SAPLING_ROW = 3;
-    public static final int SAPLING_HEALTH = 4;
 
-    public static final String BGND_KEY = "background";
-    public static final int BGND_NUM_PROPERTIES = 4;
-    public static final int BGND_ID = 1;
     public static final int BGND_COL = 2;
-    public static final int BGND_ROW = 3;
 
     public static final String OBSTACLE_KEY = "obstacle";
     public static final int OBSTACLE_NUM_PROPERTIES = 5;
@@ -59,8 +49,6 @@ public final class WorldModel
     public static final int FAIRY_ROW = 3;
     public static final int FAIRY_ANIMATION_PERIOD = 4;
     public static final int FAIRY_ACTION_PERIOD = 5;
-
-    public static final String STUMP_KEY = "stump";
 
     public static final String TREE_KEY = "tree";
     public static final int TREE_NUM_PROPERTIES = 7;
