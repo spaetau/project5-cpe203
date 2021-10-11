@@ -19,7 +19,6 @@ public final class Point
         return other instanceof Point && ((Point)other).x == this.x
                 && ((Point)other).y == this.y;
     }
-
     public int hashCode() {
         int result = 17;
         result = result * 31 + x;
