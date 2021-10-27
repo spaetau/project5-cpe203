@@ -1,10 +1,10 @@
+import processing.core.PApplet;
+import processing.core.PImage;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintStream;
-import java.util.Scanner;
 import java.util.Optional;
-
-import processing.core.*;
+import java.util.Scanner;
 
 public final class VirtualWorld extends PApplet
 {
@@ -88,7 +88,7 @@ public final class VirtualWorld extends PApplet
         if (entityOptional.isPresent())
         {
             Entity entity = entityOptional.get();
-            System.out.println(entity.id + ": " + entity.kind + " : " + entity.health);
+            //System.out.println(entity.id + ": " + entity.getClass() + " : " + entity.health);
         }
 
     }
@@ -163,7 +163,12 @@ public final class VirtualWorld extends PApplet
             WorldModel world, EventScheduler scheduler, ImageStore imageStore)
     {
         for (Entity entity : world.entities) {
-            entity.scheduleActions(scheduler, world, imageStore);
+            if (entity instanceof Animatable){
+
+
+            Animatable temp = (Animatable)entity;
+            temp.scheduleActions(scheduler, world, imageStore);
+            }
         }
     }
 

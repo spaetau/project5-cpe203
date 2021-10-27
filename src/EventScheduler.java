@@ -60,7 +60,7 @@ public final class EventScheduler
 
             this.removePendingEvent(next);
 
-            next.action.executeAction(this);
+            next.action.execute(this);
         }
     }
 

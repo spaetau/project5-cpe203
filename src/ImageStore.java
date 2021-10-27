@@ -1,9 +1,9 @@
-import java.util.*;
-
 import processing.core.PApplet;
 import processing.core.PImage;
 
-public final class ImageStore
+import java.util.*;
+
+public final class ImageStore implements KeyAccess
 {
     public static final Random rand = new Random();
 
@@ -114,19 +114,19 @@ public final class ImageStore
         String[] properties = line.split("\\s");
         if (properties.length > 0) {
             switch (properties[PROPERTY_KEY]) {
-                case Entity.BGND_KEY:
+                case BGND_KEY:
                     return world.parseBackground(properties, this);
-                case Entity.DUDE_KEY:
+                case DUDE_KEY:
                     return world.parseDude(properties, this);
-                case Entity.OBSTACLE_KEY:
+                case OBSTACLE_KEY:
                     return world.parseObstacle(properties, this);
-                case Entity.FAIRY_KEY:
+                case FAIRY_KEY:
                     return world.parseFairy(properties,  this);
-                case Entity.HOUSE_KEY:
+                case HOUSE_KEY:
                     return world.parseHouse(properties, this);
-                case Entity.TREE_KEY:
+                case TREE_KEY:
                     return world.parseTree(properties, this);
-                case Entity.SAPLING_KEY:
+                case SAPLING_KEY:
                     return world.parseSapling(properties, this);
             }
         }

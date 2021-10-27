@@ -1,4 +1,4 @@
 enum EntityKind
 {
-    HOUSE, DUDE_FULL, DUDE_NOT_FULL, OBSTACLE, FAIRY, STUMP, SAPLING, TREE
+    House, DudeFull, DudeNotFull, Obstacle, Fairy, Stump, Sapling, Tree
 }
