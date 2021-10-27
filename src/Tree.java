@@ -2,7 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Tree implements ActivityCapable, WoodPlant{
+public class Tree implements ActivityCapable, Healable {
 
 
     public static final String STUMP_KEY = "stump";
@@ -109,12 +109,12 @@ public class Tree implements ActivityCapable, WoodPlant{
     }
 
 
-    public Action createActivity(
+    public Activity createActivity(
             WorldModel world, ImageStore imageStore)
     {
         return new Activity(this, world, imageStore, 0);
     }
-    public Action createAnimation(int repeatCount) {
+    public Animation createAnimation(int repeatCount) {
         return new Animation(this, null, null,
                 repeatCount);
     }

@@ -74,7 +74,7 @@ public class DudeNotFull implements Movable {
             EventScheduler scheduler) {
         if (Point.adjacent(this.position, target.getPosition())) {
                 this.resourceCount += 1;
-                WoodPlant temp = (WoodPlant) target;
+                Healable temp = (Healable) target;
                 temp.updateHealth(-1);
                 return true;
 
@@ -158,12 +158,12 @@ public class DudeNotFull implements Movable {
     }
 
 
-public Action createActivity(
+public Activity createActivity(
         WorldModel world, ImageStore imageStore)
         {
         return new Activity(this, world, imageStore, 0);
         }
-public Action createAnimation(int repeatCount) {
+public Animation createAnimation(int repeatCount) {
         return new Animation(this, null, null,
         repeatCount);
         }

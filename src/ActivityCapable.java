@@ -6,6 +6,6 @@ public interface ActivityCapable extends Animatable {
                          ImageStore imageStore,
                          EventScheduler scheduler);
 
-    Action createActivity(
+    Activity createActivity(
             WorldModel world, ImageStore imageStore);
 }

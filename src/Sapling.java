@@ -2,7 +2,7 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Sapling implements WoodPlant, Entity, ActivityCapable {
+public class Sapling implements Healable, ActivityCapable, StaticFinal {
     private String id;
     private Point position;
     private List<PImage> images;
@@ -113,12 +113,12 @@ public class Sapling implements WoodPlant, Entity, ActivityCapable {
     }
 
 
-    public Action createActivity(
+    public Activity createActivity(
             WorldModel world, ImageStore imageStore)
     {
         return new Activity(this, world, imageStore, 0);
     }
-    public Action createAnimation(int repeatCount) {
+    public Animation createAnimation(int repeatCount) {
         return new Animation(this, null, null,
                 repeatCount);
     }

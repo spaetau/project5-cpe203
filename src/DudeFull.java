@@ -108,27 +108,22 @@ public class DudeFull implements Movable {
     }
 
 
-    public boolean transform(
+    public  void transform(
             WorldModel world,
             EventScheduler scheduler,
-            ImageStore imageStore) {
-        if (this.resourceCount >= this.resourceLimit) {
-            DudeNotFull miner = new DudeNotFull(this.id,
-                    this.position, this.actionPeriod,
-                    this.animationPeriod,
-                    this.resourceLimit,
-                    this.images);
+            ImageStore imageStore)
+    {
+        DudeNotFull miner = new DudeNotFull(this.id,
+                this.position, this.actionPeriod,
+                this.animationPeriod,
+                this.resourceLimit,
+                this.images);
 
-            world.removeEntity(this);
-            scheduler.unscheduleAllEvents(this);
+        world.removeEntity(this);
+        scheduler.unscheduleAllEvents(this);
 
-            world.addEntity(miner);
-            miner.scheduleActions(scheduler, world, imageStore);
-
-            return true;
-        }
-
-        return false;
+        world.addEntity(miner);
+        miner.scheduleActions(scheduler, world, imageStore);
     }
 
     public int getAnimationPeriod() {
@@ -147,12 +142,12 @@ public class DudeFull implements Movable {
                 this.getAnimationPeriod());
     }
 
-    public Action createActivity(
+    public Activity createActivity(
             WorldModel world, ImageStore imageStore)
     {
         return new Activity(this, world, imageStore, 0);
     }
-    public Action createAnimation(int repeatCount) {
+    public Animation createAnimation(int repeatCount) {
         return new Animation(this, null, null,
                 repeatCount);
     }

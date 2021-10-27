@@ -58,7 +58,7 @@ public class Obstacle implements Animatable{
         return this.animationPeriod;
     }
 
-    public Action createAnimation(int repeatCount) {
+    public Animation createAnimation(int repeatCount) {
         return new Animation(this, null, null,
                 repeatCount);
     }

@@ -127,12 +127,12 @@ public class Fairy implements Movable{
     }
 
 
-    public Action createActivity(
+    public Activity createActivity(
             WorldModel world, ImageStore imageStore)
     {
         return new Activity(this, world, imageStore, 0);
     }
-    public Action createAnimation(int repeatCount) {
+    public Animation createAnimation(int repeatCount) {
         return new Animation(this, null, null,
                 repeatCount);
     }
