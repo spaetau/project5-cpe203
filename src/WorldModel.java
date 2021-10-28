@@ -19,6 +19,9 @@ public final class WorldModel implements StaticFinal
 
 
     public void removeEntity(Entity entity) {
+        if (entity instanceof Fairy){
+            int temp;
+        }
         this.removeEntityAt(entity.getPosition());
     }
 

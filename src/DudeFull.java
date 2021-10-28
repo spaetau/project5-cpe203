@@ -55,11 +55,11 @@ public class DudeFull implements Movable {
         int horiz = Integer.signum(destPos.x - this.position.x);
         Point newPos = new Point(this.position.x + horiz, this.position.y);
 
-        if (horiz == 0 || world.isOccupied(newPos) && world.getOccupancyCell(newPos) instanceof Stump) {
+        if (horiz == 0 || world.isOccupied(newPos) && !(world.getOccupancyCell(newPos) instanceof Stump)) {
             int vert = Integer.signum(destPos.y - this.position.y);
             newPos = new Point(this.position.x, this.position.y + vert);
 
-            if (vert == 0 || world.isOccupied(newPos) && world.getOccupancyCell(newPos) instanceof Stump) {
+            if ((vert == 0 || world.isOccupied(newPos)) && !(world.getOccupancyCell(newPos) instanceof Stump)) {
                 newPos = this.position;
             }
         }

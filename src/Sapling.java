@@ -15,7 +15,7 @@ public class Sapling implements Healable, ActivityCapable, StaticFinal {
         this.id = id;
         this.position = position;
         this.images = images;
-        this.health = SAPLING_HEALTH;
+        this.health = 0;
         this.imageIndex = 0;
 
 
