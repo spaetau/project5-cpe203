@@ -2,43 +2,12 @@ import processing.core.PImage;
 
 import java.util.List;
 
-public class Sapling implements Healable, ActivityCapable, StaticFinal {
-    private String id;
-    private Point position;
-    private List<PImage> images;
-    private int health;
-    private int actionPeriod;
-    private int imageIndex;
-
+public class Sapling extends Healable implements Constants {
 
     public Sapling(String id, Point position, List<PImage> images) {
-        this.id = id;
-        this.position = position;
-        this.images = images;
-        this.health = 0;
-        this.imageIndex = 0;
-
-
+        super(id, position, images, SAPLING_ACTION_ANIMATION_PERIOD, SAPLING_ACTION_ANIMATION_PERIOD, 0);
     }
 
-    @Override
-    public void updateHealth(int i) {
-        this.health += i;
-    }
-
-    public void updatePosition(Point pos){
-        this.position = pos;
-    }
-
-    public PImage getCurrentImage(){
-        return this.images.get(this.imageIndex);
-    }
-    public void nextImage() {
-        this.imageIndex = (this.imageIndex + 1) % this.images.size();
-    }
-    public Point getPosition() {
-        return this.position;
-    }
     public void executeActivity(
             WorldModel world,
             ImageStore imageStore,
@@ -86,41 +55,6 @@ public class Sapling implements Healable, ActivityCapable, StaticFinal {
         }
 
         return false;
-    }
-    public int getAnimationPeriod(){
-        return SAPLING_ACTION_ANIMATION_PERIOD;
-    }
-
-    public void tryAddEntity(WorldModel world) {
-        if (world.isOccupied(this.position)) {
-            // arguably the wrong type of exception, but we are not
-            // defining our own exceptions yet
-            throw new IllegalArgumentException("position occupied");
-        }
-
-        world.addEntity(this);
-    }
-    public void scheduleActions(
-            EventScheduler scheduler,
-            WorldModel world,
-            ImageStore imageStore) {
-        scheduler.scheduleEvent(this,
-                this.createActivity(world, imageStore),
-                this.actionPeriod);
-        scheduler.scheduleEvent(this,
-                this.createAnimation(0),
-                this.getAnimationPeriod());
-    }
-
-
-    public Activity createActivity(
-            WorldModel world, ImageStore imageStore)
-    {
-        return new Activity(this, world, imageStore, 0);
-    }
-    public Animation createAnimation(int repeatCount) {
-        return new Animation(this, null, null,
-                repeatCount);
     }
 
 }

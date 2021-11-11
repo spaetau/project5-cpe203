@@ -7,7 +7,7 @@ import java.util.*;
  * Keeps track of the size of the world, the background image for each
  * location in the world, and the entities that populate the world.
  */
-public final class WorldModel implements StaticFinal
+public final class WorldModel implements Constants
 {
     public int numRows;
     public int numCols;
@@ -196,10 +196,10 @@ public final class WorldModel implements StaticFinal
                     Integer.parseInt(properties[DUDE_ROW]));
             Entity entity = new DudeNotFull(properties[DUDE_ID],
                     pt,
-                    Integer.parseInt(properties[DUDE_ACTION_PERIOD]),
+                    imageStore.getImageList(DUDE_KEY),
                     Integer.parseInt(properties[DUDE_ANIMATION_PERIOD]),
-                    Integer.parseInt(properties[DUDE_LIMIT]),
-                    imageStore.getImageList(DUDE_KEY));
+                    Integer.parseInt(properties[DUDE_ACTION_PERIOD]),
+                    Integer.parseInt(properties[DUDE_LIMIT]));
             entity.tryAddEntity(this);
         }
 
@@ -212,10 +212,9 @@ public final class WorldModel implements StaticFinal
             Point pt = new Point(Integer.parseInt(properties[FAIRY_COL]),
                     Integer.parseInt(properties[FAIRY_ROW]));
             Entity entity = new Fairy(properties[FAIRY_ID],
-                    pt,
-                    Integer.parseInt(properties[FAIRY_ACTION_PERIOD]),
-                    Integer.parseInt(properties[FAIRY_ANIMATION_PERIOD]),
-                    imageStore.getImageList(FAIRY_KEY));
+                    pt, imageStore.getImageList(FAIRY_KEY),Integer.parseInt(properties[FAIRY_ANIMATION_PERIOD]),
+                    Integer.parseInt(properties[FAIRY_ACTION_PERIOD])
+                   );
             entity.tryAddEntity(this);
         }
 

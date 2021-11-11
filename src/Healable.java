@@ -1,4 +1,16 @@
-public interface Healable extends Entity{
+import processing.core.PImage;
 
-    void updateHealth(int i);
+import java.util.List;
+
+abstract class Healable extends ActivityCapable{
+    protected int health;
+
+    public Healable(String id, Point position, List<PImage> images, int animationPeriod, int actionPeriod, int health) {
+        super(id, position, images, animationPeriod, actionPeriod);
+        this.health = health;
+    }
+
+    public void updateHealth(int i){
+        this.health += i;
+    }
 }
