@@ -3,7 +3,7 @@ import processing.core.PImage;
 import java.util.List;
 import java.util.Optional;
 
-abstract class DudeAbstract extends Movable{
+abstract class DudeAbstract extends Movable implements Transformable{
     protected int resourceCount;
     protected int resourceLimit;
 

@@ -31,6 +31,7 @@ abstract class Entity {
         return position;
     }
 
-    public void updatePosition(Point pos){this.position = pos;}
-
+    public void updatePosition(Point pos){
+        this.position = pos;
+    }
 }

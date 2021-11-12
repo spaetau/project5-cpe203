@@ -42,7 +42,7 @@ public class DudeFull extends DudeAbstract {
     }
 
 
-    public void transform(
+    public boolean transform(
             WorldModel world,
             EventScheduler scheduler,
             ImageStore imageStore)
@@ -56,6 +56,7 @@ public class DudeFull extends DudeAbstract {
 
         world.addEntity(miner);
         miner.scheduleActions(scheduler, world, imageStore);
+        return true;
     }
 
 }

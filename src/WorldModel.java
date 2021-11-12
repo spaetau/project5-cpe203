@@ -28,8 +28,8 @@ public final class WorldModel implements Constants
             this.setOccupancyCell(oldPos, null);
             this.removeEntityAt(pos);
             this.setOccupancyCell(pos, entity);
-            Movable temp = (Movable) entity;
-            temp.updatePosition(pos);
+//            Movable temp = (Movable) entity;
+            entity.updatePosition(pos);
         }
     }
 
