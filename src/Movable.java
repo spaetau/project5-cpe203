@@ -11,20 +11,11 @@ abstract class Movable extends ActivityCapable {
                               Entity target,
                               EventScheduler scheduler);
 
-     public Point nextPosition(WorldModel world, Point destPos) {
-          int horiz = Integer.signum(destPos.x - this.position.x);
-          Point newPos = new Point(this.position.x + horiz, this.position.y);
-
-          if (horiz == 0 || isObstacle(world, newPos)) {
-               int vert = Integer.signum(destPos.y - this.position.y);
-               newPos = new Point(this.position.x, this.position.y + vert);
-
-               if (vert == 0 || isObstacle(world, newPos))  {
-                    newPos = this.position;
-               }
-          }
-
-          return newPos;
+     public Point nextPosition(WorldModel world, Point destPos, PathingStrategy path) {
+          path.computePath(this.position, destPos,
+                  (p) -> !world.isOccupied(p) || world.getOccupant(p) instanceof Stump,
+                  (p1, p2) -> Point.adjacent(p1, p2) && world.withinBounds(p1) && world.withinBounds(p2),
+                  path.CARDINAL_NEIGHBORS);
      }
 
 
