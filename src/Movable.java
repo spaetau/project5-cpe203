@@ -17,7 +17,7 @@ abstract class Movable extends ActivityCapable {
                   (p1, p2) -> Point.adjacent(p1, p2) && world.withinBounds(p1) && world.withinBounds(p2),
                   path.CARDINAL_NEIGHBORS);
           if (temp.size() > 0){
-               System.out.println("pos" + this.position + " " + temp.get(0));
+//               System.out.println("pos" + this.position + " " + temp.get(0));
                return temp.get(0);
           }
           return this.position;
