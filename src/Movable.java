@@ -12,10 +12,15 @@ abstract class Movable extends ActivityCapable {
                               EventScheduler scheduler);
 
      public Point nextPosition(WorldModel world, Point destPos, PathingStrategy path) {
-          path.computePath(this.position, destPos,
-                  (p) -> !world.isOccupied(p) || world.getOccupant(p) instanceof Stump,
+          List<Point> temp  = path.computePath(this.position, destPos,
+                  (p) -> !world.isOccupied(p) && world.withinBounds(p),
                   (p1, p2) -> Point.adjacent(p1, p2) && world.withinBounds(p1) && world.withinBounds(p2),
                   path.CARDINAL_NEIGHBORS);
+          if (temp.size() > 0){
+               System.out.println("pos" + this.position + " " + temp.get(0));
+               return temp.get(0);
+          }
+          return this.position;
      }
 
 

@@ -13,26 +13,21 @@ abstract class DudeAbstract extends Movable implements Transformable{
         this.resourceLimit = resourceLimit;
     }
 
-    public Point nextPosition(WorldModel world, Point destPos) {
-        int horiz = Integer.signum(destPos.x - this.position.x);
-        Point newPos = new Point(this.position.x + horiz, this.position.y);
-
-        if (horiz == 0 || world.isOccupied(newPos) && !(world.getOccupancyCell(newPos) instanceof Stump)) {
-            int vert = Integer.signum(destPos.y - this.position.y);
-            newPos = new Point(this.position.x, this.position.y + vert);
-
-            if ((vert == 0 || world.isOccupied(newPos)) && !(world.getOccupancyCell(newPos) instanceof Stump)) {
-                newPos = this.position;
-            }
+    public Point nextPosition(WorldModel world, Point destPos, PathingStrategy path) {
+        List<Point> temp  = path.computePath(this.position, destPos,
+                (p) -> world.withinBounds(p) && (!world.isOccupied(p) || world.getOccupant(p).get() instanceof Stump),
+                (p1, p2) -> Point.adjacent(p1, p2) && world.withinBounds(p1) && world.withinBounds(p2),
+                path.CARDINAL_NEIGHBORS);
+        if (temp.size() > 0){
+            return temp.get(0);
         }
-
-        return newPos;
+        return this.position;
     }
 
     public boolean moveTo(WorldModel world,
                           Entity target,
                           EventScheduler scheduler){
-        Point nextPos = this.nextPosition(world, target.getPosition());
+        Point nextPos = this.nextPosition(world, target.getPosition(), new AStarPathingStrategy());
 
         if (!this.position.equals(nextPos)) {
             Optional<Entity> occupant = world.getOccupant(nextPos);

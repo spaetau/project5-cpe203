@@ -20,7 +20,7 @@ public class Fairy extends Movable{
             scheduler.unscheduleAllEvents(target);
             return true;
         } else {
-            Point nextPos = this.nextPosition(world, target.getPosition());
+            Point nextPos = this.nextPosition(world, target.getPosition(), new AStarPathingStrategy());
 
             if (!this.position.equals(nextPos)) {
                 Optional<Entity> occupant = world.getOccupant(nextPos);
