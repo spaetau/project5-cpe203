@@ -5,9 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class Fairy extends Movable{
-
-    public Fairy(String id, Point position, List<PImage> images, int animationPeriod, int actionPeriod) {
+public class Alien extends Movable{
+    public Alien(String id, Point position, List<PImage> images, int animationPeriod, int actionPeriod) {
         super(id, position, images, animationPeriod, actionPeriod);
     }
 
@@ -39,19 +38,16 @@ public class Fairy extends Movable{
             ImageStore imageStore,
             EventScheduler scheduler)
     {
-        Stump temp1 = new Stump(null, null, null);
-        Optional<Entity> fairyTarget =
-                world.findNearest(this.position, new ArrayList<>(Arrays.asList(temp1)));
+        Optional<Entity> alienTarget =
+                world.findNearest(this.position, new ArrayList<Entity>(
+                        Arrays.asList(new DudeNotFull(null,null, null, 0, 0, 0),
+                                new DudeFull(null,null, null, 0, 0, 0))));
 
-        if (fairyTarget.isPresent()) {
-            Point tgtPos = fairyTarget.get().getPosition();
+        if (alienTarget.isPresent()) {
+            Point tgtPos = alienTarget.get().getPosition();
 
-            if (this.moveTo(world, fairyTarget.get(), scheduler)) {
-                ActivityCapable sapling = new Sapling("sapling_" + this.id, tgtPos,
-                        imageStore.getImageList(Sapling.SAPLING_KEY));
-
-                world.addEntity(sapling);
-                sapling.scheduleActions(scheduler, world, imageStore);
+            if (this.moveTo(world, alienTarget.get(), scheduler)) {
+                // add activity later
             }
         }
 
