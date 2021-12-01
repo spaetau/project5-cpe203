@@ -77,5 +77,7 @@ public interface Constants {
     public static final int TREE_HEALTH_MAX = 3;
     public static final int TREE_HEALTH_MIN = 1;
 
+    public static final String ALIEN_KEY = "alien";
 
+    public static final String UFO_KEY = "ufo";
 }
