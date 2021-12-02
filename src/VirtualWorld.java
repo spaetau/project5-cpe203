@@ -91,6 +91,21 @@ public final class VirtualWorld extends PApplet
             //System.out.println(entity.id + ": " + entity.getClass() + " : " + entity.health);
         }
 
+        String[] arrKeyCrater = new String[9];
+        for (int i = 0; i < arrKeyCrater.length; i++){
+            arrKeyCrater[i] = "crater" + (i + 1);
+        }
+        spawnCrater(pressed, arrKeyCrater);
+
+
+
+
+    }
+
+    private void spawnCrater(Point pt, String[] arrKey){
+        for (int i = 0; i < arrKey.length; i++){
+            
+        }
     }
 
     private Point mouseToPoint(int x, int y)
