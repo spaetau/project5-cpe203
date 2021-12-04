@@ -80,4 +80,6 @@ public interface Constants {
     public static final String ALIEN_KEY = "alien";
 
     public static final String UFO_KEY = "ufo";
+
+    public static final String DEATH_EXPLOSION = "death_explosion";
 }

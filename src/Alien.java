@@ -47,7 +47,11 @@ public class Alien extends Movable{
             Point tgtPos = alienTarget.get().getPosition();
 
             if (this.moveTo(world, alienTarget.get(), scheduler)) {
-                // add activity later
+                Animatable explosion = new DeathExplosion("explosion_" + this.id, tgtPos,
+                        imageStore.getImageList(Constants.DEATH_EXPLOSION), 51, 51);
+
+                world.addEntity(explosion);
+                explosion.scheduleActions(scheduler, world, imageStore);
             }
         }
 
