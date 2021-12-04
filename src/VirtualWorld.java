@@ -106,6 +106,9 @@ public final class VirtualWorld extends PApplet
         for (int i = 0; i < arrKey.length; i++){
             
         }
+        Alien entity = new Alien("alien-test", pressed, this.imageStore.getImageList("alien"), 51, 51);
+        this.world.addEntity(entity);
+        entity.scheduleActions(this.scheduler, this.world, this.imageStore);
     }
 
     private Point mouseToPoint(int x, int y)
