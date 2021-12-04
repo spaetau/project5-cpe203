@@ -1,10 +1,10 @@
+import jdk.jshell.spi.SPIResolutionException;
 import processing.core.PApplet;
 import processing.core.PImage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public final class VirtualWorld extends PApplet
 {
@@ -91,6 +91,57 @@ public final class VirtualWorld extends PApplet
             //System.out.println(entity.id + ": " + entity.getClass() + " : " + entity.health);
         }
 
+       triggerEvent(pressed);
+    }
+
+    private void triggerEvent(Point pressed){
+        String[] arrKeyCrater = new String[9];
+        ArrayList<Point> pointCraters = new ArrayList<>();
+        for (int y = -1; y <= 1; y++){
+            for (int x = -1; x <= 1; x++){
+                pointCraters.add(new Point(pressed.x + x, pressed.y + y));
+            }
+        }
+        for (int i = 0; i < arrKeyCrater.length; i++){
+            arrKeyCrater[i] = "crater" + (i + 1);
+        }
+        spawnCrater(pressed, arrKeyCrater, pointCraters);
+        spawnAlien(pressed);
+        spawnDudeRad(pressed);
+    }
+
+    private void spawnCrater(Point pt, String[] arrKey, ArrayList<Point> pointCraters){
+        for (int i = 0; i < 9; i++){
+            if (this.world.withinBounds(pointCraters.get(i))){
+                Crater temp = new Crater(arrKey[i], pointCraters.get(i), this.imageStore.getImageList(arrKey[i]));
+                this.world.removeEntityAt(pointCraters.get(i));
+                this.world.addEntity(temp);
+            }
+        }
+    }
+
+    private void spawnAlien(Point pt){
+        Point newPoint = new Point(pt.x, pt.y + 2);
+        if (!this.world.withinBounds(newPoint)){
+            newPoint = new Point(pt.x, pt.y - 2);
+        }
+        Alien entity = new Alien("alien-test", newPoint, this.imageStore.getImageList("alien"), 300, 300);
+        this.world.addEntity(entity);
+        entity.scheduleActions(this.scheduler, this.world, this.imageStore);
+    }
+
+    private void spawnDudeRad(Point pt){
+        Optional<Entity> eventTarget =
+                world.findNearest(pt, new ArrayList<Entity>(
+                        Arrays.asList(new DudeNotFull(null,null, null, 0, 0, 0),
+                                new DudeFull(null,null, null, 0, 0, 0))));
+
+        Point newPoint = eventTarget.get().getPosition();
+
+        DudeRadNotFull entity = new DudeRadNotFull("dude_rad", newPoint, this.imageStore.getImageList(Constants.DUDE_RAD), 200, 200, 20);
+        this.world.removeEntityAt(newPoint);
+        this.world.addEntity(entity);
+        entity.scheduleActions(this.scheduler, this.world, this.imageStore);
     }
 
     private Point mouseToPoint(int x, int y)

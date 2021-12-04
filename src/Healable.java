@@ -13,4 +13,8 @@ abstract class Healable extends ActivityCapable implements Transformable{
     public void updateHealth(int i){
         this.health += i;
     }
+
+    public int getHealth() {
+        return health;
+    }
 }
