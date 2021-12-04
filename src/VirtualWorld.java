@@ -1,10 +1,10 @@
+import jdk.jshell.spi.SPIResolutionException;
 import processing.core.PApplet;
 import processing.core.PImage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public final class VirtualWorld extends PApplet
 {
@@ -91,22 +91,44 @@ public final class VirtualWorld extends PApplet
             //System.out.println(entity.id + ": " + entity.getClass() + " : " + entity.health);
         }
 
-        String[] arrKeyCrater = new String[9];
-        for (int i = 0; i < arrKeyCrater.length; i++){
-            arrKeyCrater[i] = "crater" + (i + 1);
-        }
-        spawnCrater(pressed, arrKeyCrater);
-
-
+       triggerEvent(pressed);
 
 
     }
 
-    private void spawnCrater(Point pt, String[] arrKey){
-        for (int i = 0; i < arrKey.length; i++){
-            
+    private void triggerEvent(Point pressed){
+        String[] arrKeyCrater = new String[9];
+        ArrayList<Point> pointCraters = new ArrayList<>();
+        for (int y = -1; y <= 1; y++){
+            for (int x = -1; x <= 1; x++){
+                pointCraters.add(new Point(pressed.x + x, pressed.y + y));
+            }
         }
-        Alien entity = new Alien("alien-test", pressed, this.imageStore.getImageList("alien"), 51, 51);
+        for (int i = 0; i < arrKeyCrater.length; i++){
+            arrKeyCrater[i] = "crater" + (i + 1);
+        }
+        spawnCrater(pressed, arrKeyCrater, pointCraters);
+        spawnAlien(pressed);
+
+
+    }
+
+    private void spawnCrater(Point pt, String[] arrKey, ArrayList<Point> pointCraters){
+        for (int i = 0; i < 9; i++){
+            if (this.world.withinBounds(pointCraters.get(i))){
+                Crater temp = new Crater(arrKey[i], pointCraters.get(i), this.imageStore.getImageList(arrKey[i]));
+                this.world.removeEntityAt(pointCraters.get(i));
+                this.world.addEntity(temp);
+            }
+        }
+    }
+
+    private void spawnAlien(Point pt){
+        Point newPoint = new Point(pt.x, pt.y + 2);
+        if (!this.world.withinBounds(newPoint)){
+            newPoint = new Point(pt.x, pt.y - 2);
+        }
+        Alien entity = new Alien("alien-test", newPoint, this.imageStore.getImageList("alien"), 51, 51);
         this.world.addEntity(entity);
         entity.scheduleActions(this.scheduler, this.world, this.imageStore);
     }
