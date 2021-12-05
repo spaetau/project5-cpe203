@@ -105,12 +105,12 @@ public final class VirtualWorld extends PApplet
         for (int i = 0; i < arrKeyCrater.length; i++){
             arrKeyCrater[i] = "crater" + (i + 1);
         }
-        spawnCrater(pressed, arrKeyCrater, pointCraters);
+        spawnCrater(arrKeyCrater, pointCraters);
         spawnAlien(pressed);
         spawnDudeRad(pressed);
     }
 
-    private void spawnCrater(Point pt, String[] arrKey, ArrayList<Point> pointCraters){
+    private void spawnCrater(String[] arrKey, ArrayList<Point> pointCraters){
         for (int i = 0; i < 9; i++){
             if (this.world.withinBounds(pointCraters.get(i))){
                 Crater temp = new Crater(arrKey[i], pointCraters.get(i), this.imageStore.getImageList(arrKey[i]));
