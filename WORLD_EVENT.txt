@@ -1,4 +1,5 @@
 https://github.com/spaetau/project5-cpe203
+Partners: Soren Paetau and Nate Cole
 
 Three main features are implemented in our world event. 
 TL;DR crater spawns 3x3, alien spawns with it, alien eat dude, closed dude to crater becomes rad dude, rad dude transforms trees into dudes, chaos ensues.
