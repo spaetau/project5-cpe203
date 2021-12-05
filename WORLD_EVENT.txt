@@ -1,0 +1,15 @@
+https://github.com/spaetau/project5-cpe203
+
+Three main features are implemented in our world event. 
+TL;DR crater spawns 3x3, alien spawns with it, alien eat dude, closed dude to crater becomes rad dude, rad dude transforms trees into dudes, chaos ensues.
+
+Crater: The 3x3 crater spawns on a mouse click, with the center of the crater being where the user clicked. it essentially spawns 3 entities each with a different image, using an array of "craterKeys." Additionally crater can be spawned multiple times anywhere on the map, and any entities that are within that 3x3 grid will be removed. The reason we chose not to back it a background is that it makes sense to not be able to pass through a large crater and that way we preserved the existing background image, specifically on the corners. 
+
+Alien:
+The alien spawns typically below the crater, unless below is out of bounds, then it spawns above. The alien then hunts down dudes, using our A* algorithm, and kills them, with a Death explosion animation being used to signal they're dying. Once there are no more dudes the aliens just stand still. However, we noticed the aliens were wiping out all the dudes very quickly so we implemented our next entity
+
+RadDude(Full/NotFull):
+This entity essentially performs identical to a dude, same pathing and steps to take with two important distinctions from the dude class: He is not targeted by the aliens, essentially making him invincible and when he chops down a tree, that tree turns into dudes. He "spawns" whenever the event is triggered and replaces the nearest dude to the crater event. This dude provides a fun element where you just have a bunch of dudes going around with the aliens trying to keep up.
+
+Overall Design:
+Our code is very functional, with each spawning and such being their own method, very easy to modify and read with each element being able to be removed or tweaked if needed. Additionally, we made use of our abstract classes, to make the implementation of our new classes very streamlined. 

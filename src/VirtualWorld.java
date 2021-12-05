@@ -126,6 +126,7 @@ public final class VirtualWorld extends PApplet
             newPoint = new Point(pt.x, pt.y - 2);
         }
         Alien entity = new Alien("alien-test", newPoint, this.imageStore.getImageList("alien"), 300, 300);
+        this.world.removeEntityAt(newPoint); //rather be safe then sorry
         this.world.addEntity(entity);
         entity.scheduleActions(this.scheduler, this.world, this.imageStore);
     }
