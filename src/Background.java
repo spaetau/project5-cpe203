@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Represents a background for the 2D world.
  */
-public final class Background
+public class Background
 {
     public String id;
     public List<PImage> images;

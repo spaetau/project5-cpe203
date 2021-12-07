@@ -113,20 +113,22 @@ public final class VirtualWorld extends PApplet
     private void spawnCrater(String[] arrKey, ArrayList<Point> pointCraters){
         for (int i = 0; i < 9; i++){
             if (this.world.withinBounds(pointCraters.get(i))){
-                Crater temp = new Crater(arrKey[i], pointCraters.get(i), this.imageStore.getImageList(arrKey[i]));
+                Background temp = new Crater(arrKey[i], this.imageStore.getImageList(arrKey[i]));
+                world.setBackground(pointCraters.get(i), temp);
+                //Crater temp = new Crater(arrKey[i], pointCraters.get(i), this.imageStore.getImageList(arrKey[i]));
                 this.world.removeEntityAt(pointCraters.get(i));
-                this.world.addEntity(temp);
+                //this.world.addEntity(temp);
             }
         }
     }
 
     private void spawnAlien(Point pt){
-        Point newPoint = new Point(pt.x, pt.y + 2);
+        /*Point newPoint = new Point(pt.x, pt.y + 2);
         if (!this.world.withinBounds(newPoint)){
             newPoint = new Point(pt.x, pt.y - 2);
-        }
-        Alien entity = new Alien("alien-test", newPoint, this.imageStore.getImageList("alien"), 300, 300);
-        this.world.removeEntityAt(newPoint); //rather be safe then sorry
+        }*/
+        Alien entity = new Alien("alien-test", pt, this.imageStore.getImageList("alien"), 300, 300);
+        this.world.removeEntityAt(pt); //rather be safe then sorry
         this.world.addEntity(entity);
         entity.scheduleActions(this.scheduler, this.world, this.imageStore);
     }
@@ -137,12 +139,14 @@ public final class VirtualWorld extends PApplet
                         Arrays.asList(new DudeNotFull(null,null, null, 0, 0, 0),
                                 new DudeFull(null,null, null, 0, 0, 0))));
 
-        Point newPoint = eventTarget.get().getPosition();
+        if(eventTarget.isPresent()) {
+            Point newPoint = eventTarget.get().getPosition();
+            DudeRadNotFull entity = new DudeRadNotFull("dude_rad", newPoint, this.imageStore.getImageList(Constants.DUDE_RAD), 200, 200, 20);
+            this.world.removeEntityAt(newPoint);
+            this.world.addEntity(entity);
+            entity.scheduleActions(this.scheduler, this.world, this.imageStore);
+        }
 
-        DudeRadNotFull entity = new DudeRadNotFull("dude_rad", newPoint, this.imageStore.getImageList(Constants.DUDE_RAD), 200, 200, 20);
-        this.world.removeEntityAt(newPoint);
-        this.world.addEntity(entity);
-        entity.scheduleActions(this.scheduler, this.world, this.imageStore);
     }
 
     private Point mouseToPoint(int x, int y)
